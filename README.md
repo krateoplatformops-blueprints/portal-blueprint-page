@@ -1,4 +1,4 @@
-# Templates Blueprint: Add Composition to Template Page
+# Template Blueprint: Add Composition to Template Page
 
 This repository contains a **Blueprint** designed for use with [Krateo PlatformOps](https://krateo.io), specifically targeting the **Composable Portal** feature.
 
