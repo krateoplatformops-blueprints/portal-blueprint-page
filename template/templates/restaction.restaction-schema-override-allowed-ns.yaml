@@ -1,0 +1,55 @@
+apiVersion: templates.krateo.io/v1
+kind: RESTAction
+metadata:
+  name: {{ .Release.Name }}-restaction-schema-override-allows-ns
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "krateo.io/verbose": "true"
+spec:
+  api:
+  - name: getCompositionDefinitionSchemaNs
+    path: "/call?apiVersion=templates.krateo.io/v1&resource=restactions&name={{ .Release.Name }}-restaction-compositiondefinition-schema-ns&namespace={{ .Release.Namespace }}"
+    verb: GET
+    endpointRef:
+      name: snowplow-endpoint
+      namespace: {{ .Values.krateoNamespace }}
+    headers:
+    - 'Accept: application/json'
+    continueOnError: true
+    errorKey: getCompositionDefinitionSchemaNs
+    exportJwt: true 
+  - name: allowedNamespaces
+    continueOnError: true
+    dependsOn: 
+      name: getCompositionDefinitionSchemaNs
+      iterator: .getCompositionDefinitionSchemaNs.status.possibleNamespacesForComposition
+    path: /apis/authorization.k8s.io/v1/selfsubjectaccessreviews
+    verb: POST
+    headers:
+      - "Content-Type: application/json"
+    payload: |
+      ${
+        {
+          "kind": "SelfSubjectAccessReview",
+          "apiVersion": "authorization.k8s.io/v1",
+          "spec": {
+            "resourceAttributes": {
+              "namespace": .namespace,
+              "verb": "create",
+              "group": "composition.krateo.io",
+              "version": "v{{ .Values.composition.version | replace "." "-" }}",
+              "resource": .resource
+            }
+          }
+        }
+      }    
+  filter: >
+    {
+      getSchemaNotOrdered: .getCompositionDefinitionSchemaNs.status.getSchemaNotOrdered,
+      allowedNamespaces: [
+        [.allowedNamespaces[] | .status.allowed] as $allowed
+        | [.getCompositionDefinitionSchemaNs.status.possibleNamespacesForComposition[] | .namespace]
+        | to_entries
+        | map(select($allowed[.key] == true) | .value)
+      ]
+    }

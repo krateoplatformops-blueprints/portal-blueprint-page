@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "composition": {
+      "additionalProperties": false,
+      "description": "Composition properties",
+      "properties": {
+        "version": {
+          "default": "2.0.2",
+          "description": "Composition version",
+          "title": "version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version"
+      ],
+      "title": "composition",
+      "type": "object"
+    },
+    "icon": {
+      "additionalProperties": false,
+      "description": "Template panel icon properties",
+      "properties": {
+        "name": {
+          "default": "fa-cubes",
+          "description": "Template panel icon name",
+          "title": "name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "icon",
+      "type": "object"
+    },
+    "krateoNamespace": {
+      "default": "krateo-system",
+      "description": "Krateo PlatformOps namespace, useful for default endpoints",
+      "title": "krateoNamespace",
+      "type": "string"
+    },
+    "title": {
+      "default": "FireworksApp (Not Ordered Schema)",
+      "description": "Template panel title",
+      "title": "title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "type": "object"
+}

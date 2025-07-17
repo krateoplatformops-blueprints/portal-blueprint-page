@@ -1,0 +1,81 @@
+apiVersion: templates.krateo.io/v1
+kind: RESTAction
+metadata:
+  name: {{ .Release.Name }}-restaction-cleanup-list-widgets
+  namespace: {{ .Release.Namespace }}
+spec:
+  api:
+  # Delete all widgets in namespace that contain
+  # annotations:
+  #   meta.helm.sh/release-name = {{ .Release.Name }}
+  #   meta.helm.sh/release-namespace = {{ .Release.Namespace }}
+  - name: widgetsCrds
+    path: "/apis/apiextensions.k8s.io/v1/customresourcedefinitions"
+    filter: "[.items[] | select(.spec.group == \"widgets.templates.krateo.io\") | {storedVersion: .status.storedVersions[0], plural: .status.acceptedNames.plural} ]"
+    continueOnError: true
+  - name: getWidgets
+    path: ${"/apis/widgets.templates.krateo.io/" + (.storedVersion)+ "/namespaces/{{ .Release.Namespace }}/" + (.plural)}
+    dependsOn: 
+      name: widgetsCrds
+      iterator: .widgetsCrds
+    filter: >
+      [
+        .items[] 
+        | select(
+            .metadata.annotations["meta.helm.sh/release-name"]? == "{{ .Release.Name }}"
+            and 
+            .metadata.annotations["meta.helm.sh/release-namespace"]? == "{{ .Release.Namespace }}"
+        )
+        | { apiVersion: .apiVersion, name: .metadata.name, namespace: .metadata.namespace, kind: .kind }
+      ] 
+  - name: getWidgetsPlural
+    dependsOn: 
+      name: getWidgets
+      iterator: .getWidgets
+    path: ${"/api-info/names?apiVersion=" + (.apiVersion) + "&kind=" + (.kind)}
+    verb: GET
+    endpointRef:
+      name: snowplow-endpoint
+      namespace: {{ .Values.krateoNamespace }}
+    headers:
+    - 'Accept: application/json'
+    continueOnError: true
+    errorKey: getWidgetsPlural
+    exportJwt: true 
+  filter: >
+    [
+      .getWidgets[]
+      as $w
+      | (
+          .getWidgetsPlural
+          | map(select(.singular | ascii_downcase == ($w.kind | ascii_downcase)))
+          | .[0] // {}
+        )
+      | $w + { plural: .plural }
+    ]
+
+
+
+  # - name: namespaces
+  #   path: "/api/v1/namespaces"
+  #   filter: "[.items[] | .metadata.name]"
+  #   continueOnError: true
+
+  # - name: deletePanel
+  #   path: "/apis/widgets.templates.krateo.io/v1beta1/namespaces/{{ .Release.Namespace }}/panels/{{ .Release.Name }}-panel"
+  #   verb: DELETE
+  # - name: deletePanelParagraph
+  #   path: "/apis/widgets.templates.krateo.io/v1beta1/namespaces/{{ .Release.Namespace }}/paragraphs/{{ .Release.Name }}-panel-paragraph"
+  #   verb: DELETE
+  # - name: deletePanelButton
+  #   path: "/apis/widgets.templates.krateo.io/v1beta1/namespaces/{{ .Release.Namespace }}/buttons/{{ .Release.Name }}-panel-button"
+  #   verb: DELETE
+  # - name: deleteCompositionDefinition
+  #   path: "/apis/core.krateo.io/v1alpha1/namespaces/{{ .Release.Namespace }}/compositiondefinitions/{{ .Release.Name }}"
+  #   verb: DELETE
+  # - name: deleteRestActionCleanup
+  #   path: "/apis/templates.krateo.io/v1/namespaces/{{ .Release.Namespace }}/restactions/{{ .Release.Name }}-restaction-cleanup"
+  #   verb: DELETE
+  # - name: deleteRestActionCleanup
+  #   path: "/apis/templates.krateo.io/v1/namespaces/{{ .Release.Namespace }}/restactions/{{ .Release.Name }}-restaction-cleanup"
+  #   verb: DELETE

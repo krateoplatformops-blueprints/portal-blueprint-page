@@ -1,0 +1,61 @@
+apiVersion: templates.krateo.io/v1
+kind: RESTAction
+metadata:
+  name: {{ .Release.Name }}-restaction-cleanup
+  namespace: {{ .Release.Namespace }}
+spec:
+  api:
+  - name: getWidgetsToDelete
+    path: "/call?apiVersion=templates.krateo.io/v1&resource=restactions&name={{ .Release.Name }}-restaction-cleanup-list-widgets&namespace={{ .Release.Namespace }}"
+    verb: GET
+    endpointRef:
+      name: snowplow-endpoint
+      namespace: {{ .Values.krateoNamespace }}
+    headers:
+    - 'Accept: application/json'
+    continueOnError: true
+    errorKey: getWidgetsToDelete
+    exportJwt: true
+  - name: deleteWidgets
+    continueOnError: true
+    dependsOn: 
+      name: getWidgetsToDelete
+      iterator: .getWidgetsToDelete.status
+    path: ${ "/apis/" + (.apiVersion) + "/namespaces/" + (.namespace) + "/" + (.plural) + "/" + (.name) }
+    verb: DELETE
+  - name: getCoresToDelete
+    path: "/call?apiVersion=templates.krateo.io/v1&resource=restactions&name={{ .Release.Name }}-restaction-cleanup-list-cores&namespace={{ .Release.Namespace }}"
+    verb: GET
+    endpointRef:
+      name: snowplow-endpoint
+      namespace: {{ .Values.krateoNamespace }}
+    headers:
+    - 'Accept: application/json'
+    continueOnError: true
+    errorKey: getCoresToDelete
+    exportJwt: true
+  - name: deleteCores
+    continueOnError: true
+    dependsOn: 
+      name: getCoresToDelete
+      iterator: .getCoresToDelete.status
+    path: ${ "/apis/" + (.apiVersion) + "/namespaces/" + (.namespace) + "/" + (.plural) + "/" + (.name) }
+    verb: DELETE
+  - name: getTemplatesToDelete
+    path: "/call?apiVersion=templates.krateo.io/v1&resource=restactions&name={{ .Release.Name }}-restaction-cleanup-list-templates&namespace={{ .Release.Namespace }}"
+    verb: GET
+    endpointRef:
+      name: snowplow-endpoint
+      namespace: {{ .Values.krateoNamespace }}
+    headers:
+    - 'Accept: application/json'
+    continueOnError: true
+    errorKey: getTemplatesToDelete
+    exportJwt: true
+  - name: deleteTemplates
+    continueOnError: true
+    dependsOn: 
+      name: getTemplatesToDelete
+      iterator: .getTemplatesToDelete.status
+    path: ${ "/apis/" + (.apiVersion) + "/namespaces/" + (.namespace) + "/" + (.plural) + "/" + (.name) }
+    verb: DELETE

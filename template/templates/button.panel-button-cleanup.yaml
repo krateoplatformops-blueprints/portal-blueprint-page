@@ -1,0 +1,25 @@
+kind: Button
+apiVersion: widgets.templates.krateo.io/v1beta1
+metadata:
+  name: {{ .Release.Name }}-panel-button-cleanup
+  namespace: {{ .Release.Namespace }}
+spec:
+  widgetData:
+    icon: fa-trash
+    type: default
+    shape: circle
+    clickActionId: cleanup
+    actions:
+      rest:
+        - id: cleanup
+          resourceRefId: cleanup
+          type: rest
+          onSuccessNavigateTo: /templates
+          successMessage: "Successfully deleted {{ .Release.Name }} template in {{ .Release.Namespace }}"
+  resourcesRefs:
+    - id: cleanup
+      apiVersion: templates.krateo.io/v1
+      resource: restactions
+      name: {{ .Release.Name }}-restaction-cleanup
+      namespace: {{ .Release.Namespace }}
+      verb: GET

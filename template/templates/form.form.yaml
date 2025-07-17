@@ -1,0 +1,59 @@
+kind: Form
+apiVersion: widgets.templates.krateo.io/v1beta1
+metadata:
+  name: {{ .Release.Name }}-form
+  namespace: {{ .Release.Namespace }}
+spec:
+  widgetData:
+    schema: {}
+    submitActionId: submit-action-from-string-schema
+    actions:
+      rest:
+        - id: submit-action-from-string-schema
+          onEventNavigateTo:
+            eventReason: "CompositionCreated"
+            url: "/compositions/${metadata.namespace}/${metadata.name}"
+            timeout: 50
+          payloadKey: spec
+          resourceRefId: composition-to-post
+          type: rest
+          payloadToOverride:
+          - name: metadata.name
+            value: ${ composition.name }
+          - name: metadata.name
+            value: ${ composition.namespace }
+  widgetDataTemplate:
+    - forPath: stringSchema
+      expression: >
+        ${ 
+          .getSchemaNotOrdered["values.schema.json"] as $schema
+          | .allowedNamespaces[] as $allowedNamespaces
+          | "\"properties\": " | length as $keylen
+          | ($schema | index("\"properties\": ")) as $idx
+          | ($schema[0:$idx + $keylen]) as $prefix
+          | ($schema[$idx + $keylen:]) as $rest
+          | {
+              composition: {
+                type: "object",
+                properties: {
+                  name: {
+                    type: "string"
+                  },
+                  namespace: {
+                    type: "string",
+                    enum: $allowedNamespaces
+                  }
+                }
+              }
+            } | tostring as $injected
+          | $prefix + $injected[:-1] + "," + $rest[1:] 
+        }
+  # resourcesRefs:
+  #   - id: composition-to-post
+  #     apiVersion: composition.krateo.io/v2-0-2
+  #     namespace: fireworksapp-system
+  #     resource: fireworksapps
+  #     verb: POST
+  apiRef:
+    name: {{ .Release.Name }}-restaction-schema-override-allows-ns
+    namespace: {{ .Release.Namespace }}

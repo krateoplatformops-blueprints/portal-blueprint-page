@@ -1,0 +1,42 @@
+apiVersion: templates.krateo.io/v1
+kind: RESTAction
+metadata:
+  name: {{ .Release.Name }}-restaction-compositiondefinition-schema-ns
+  namespace: {{ .Release.Namespace }}
+spec:
+  api:
+  - name: getCompositionDefinition
+    path: "/apis/core.krateo.io/v1alpha1/namespaces/{{ .Release.Namespace }}/compositiondefinitions/{{ .Release.Name }}"
+    verb: GET
+    headers:
+    - 'Accept: application/json'
+  - name: getCompositionDefinitionResource
+    path: "/apis/core.krateo.io/v1alpha1/namespaces/{{ .Release.Namespace }}/compositiondefinitions/{{ .Release.Name }}"
+    verb: GET
+    headers:
+    - 'Accept: application/json'
+    filter: ".status.resource"
+  - name: getSchemaNotOrdered
+    path: ${ "/api/v1/namespaces/{{ .Release.Namespace }}/configmaps/" + (.getCompositionDefinitionResource) + "-v{{ .Values.composition.version | replace "." "-" }}-jsonschema-configmap" }
+    verb: GET
+    headers:
+    - 'Accept: application/json'
+    dependsOn: 
+      name: getCompositionDefinitionResource
+    filter: ".data"
+  - name: getNamespaces
+    path: "/api/v1/namespaces"
+    filter: "[.items[] | .metadata.name]"
+  filter: >
+    {
+      getSchemaNotOrdered: .getSchemaNotOrdered,
+      getCompositionDefinition: .getCompositionDefinition,
+      possibleNamespacesForComposition:
+      [
+        .getNamespaces[] as $ns |
+        {
+          resource: .getCompositionDefinitionResource,
+          namespace: $ns
+        }
+      ]
+    }

@@ -1,0 +1,38 @@
+# Default values for template.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# @schema
+# description: Composition properties
+# type: object
+# @schema
+composition:
+  # @schema
+  # description: Composition version
+  # type: string
+  # required: true
+  # @schema
+  version: 0.0.1
+# @schema
+# description: Template panel title 
+# type: string
+# required: true
+# @schema
+title: Frontend Scaffolding (GitHub.com)
+# @schema
+# description: Template panel icon properties 
+# type: object
+# @schema
+icon:
+  # @schema
+  # description: Template panel icon name 
+  # type: string
+  # required: true
+  # @schema
+  name: fa-cubes
+# @schema
+# description: Krateo PlatformOps namespace, useful for default endpoints
+# type: string
+# default: krateo-system
+# @schema
+krateoNamespace: krateo-system

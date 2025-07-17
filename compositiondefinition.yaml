@@ -1,0 +1,10 @@
+apiVersion: core.krateo.io/v1alpha1
+kind: CompositionDefinition
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  chart:
+    repo: {{ .Release.Name }}
+    url: https://charts.krateo.io
+    version: {{ .Values.composition.version }}

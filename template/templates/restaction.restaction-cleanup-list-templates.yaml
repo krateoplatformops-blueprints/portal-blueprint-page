@@ -1,0 +1,55 @@
+apiVersion: templates.krateo.io/v1
+kind: RESTAction
+metadata:
+  name: {{ .Release.Name }}-restaction-cleanup-list-templates
+  namespace: {{ .Release.Namespace }}
+spec:
+  api:
+  # Delete all restactions in namespace that contain
+  # annotations:
+  #   meta.helm.sh/release-name = {{ .Release.Name }}
+  #   meta.helm.sh/release-namespace = {{ .Release.Namespace }}
+  - name: templatesCrds
+    path: "/apis/apiextensions.k8s.io/v1/customresourcedefinitions"
+    filter: "[.items[] | select(.spec.group == \"templates.krateo.io\") | {storedVersion: .status.storedVersions[0], plural: .status.acceptedNames.plural} ]"
+    continueOnError: true
+  - name: getTemplates
+    path: ${"/apis/templates.krateo.io/" + (.storedVersion)+ "/namespaces/{{ .Release.Namespace }}/" + (.plural)}
+    dependsOn: 
+      name: templatesCrds
+      iterator: .templatesCrds
+    filter: >
+      [
+        .items[] 
+        | select(
+            .metadata.annotations["meta.helm.sh/release-name"]? == "{{ .Release.Name }}"
+            and 
+            .metadata.annotations["meta.helm.sh/release-namespace"]? == "{{ .Release.Namespace }}"
+        )
+        | { apiVersion: .apiVersion, name: .metadata.name, namespace: .metadata.namespace, kind: .kind }
+      ] 
+  - name: getTemplatesPlural
+    dependsOn: 
+      name: getTemplates
+      iterator: .getTemplates
+    path: ${"/api-info/names?apiVersion=" + (.apiVersion) + "&kind=" + (.kind)}
+    verb: GET
+    endpointRef:
+      name: snowplow-endpoint
+      namespace: {{ .Values.krateoNamespace }}
+    headers:
+    - 'Accept: application/json'
+    continueOnError: true
+    errorKey: getTemplatesPlural
+    exportJwt: true 
+  filter: >
+    [
+      .getTemplates[]
+      as $w
+      | (
+          .getTemplatesPlural
+          | map(select(.singular | ascii_downcase == ($w.kind | ascii_downcase)))
+          | .[0] // {}
+        )
+      | $w + { plural: .plural }
+    ]
