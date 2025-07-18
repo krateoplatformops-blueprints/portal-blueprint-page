@@ -51,6 +51,7 @@ helm install <composition-name> template \
 Install the CompositionDefinition for the *Blueprint*:
 
 ```sh
+cat <<EOF | kubectl apply -f -
 apiVersion: core.krateo.io/v1alpha1
 kind: CompositionDefinition
 metadata:
@@ -59,15 +60,16 @@ metadata:
 spec:
   chart:
     repo: template
-    url: https://charts.krateo.io
+    url: https://marketplace.krateo.io
     version: 0.0.1
+EOF
 ```
 
 Install the Blueprint using, as metadata.name, the *Composition* name (the Helm Chart name of the composition):
 
 ```sh
 apiVersion: composition.krateo.io/v0-0-1
-kind: FrontendGitHubScaffolding
+kind: Template
 metadata:
   name: <composition-name> 
   namespace: <composition-namespace> 
