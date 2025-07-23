@@ -1,4 +1,4 @@
-# Add Blueprint to Blueprint Page
+# Add Blueprint to *Portal Blueprint Page*
 
 This repository contains a **Blueprint** designed for use with [Krateo PlatformOps](https://krateo.io), specifically targeting the **Composable Portal** feature.
 
