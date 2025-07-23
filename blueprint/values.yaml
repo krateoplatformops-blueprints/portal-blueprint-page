@@ -3,22 +3,22 @@
 # Declare variables to be passed into your templates.
 
 # @schema
-# description: Composition properties
+# description: Blueprint properties
 # type: object
 # @schema
-composition:
+blueprint:
   # @schema
-  # description: Composition version
+  # description: Blueprints version
   # type: string
   # required: true
   # @schema
-  version: 0.0.1
+  version: ""
 # @schema
 # description: Template panel title 
 # type: string
 # required: true
 # @schema
-title: Frontend Scaffolding (GitHub.com)
+title: ""
 # @schema
 # description: Template panel icon properties 
 # type: object
@@ -29,10 +29,9 @@ icon:
   # type: string
   # required: true
   # @schema
-  name: fa-cubes
+  name: ""
 # @schema
 # description: Krateo PlatformOps namespace, useful for default endpoints
 # type: string
-# default: krateo-system
 # @schema
-krateoNamespace: krateo-system
+krateoNamespace: ""

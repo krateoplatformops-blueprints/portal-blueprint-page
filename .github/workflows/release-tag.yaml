@@ -30,7 +30,7 @@ jobs:
           echo CHART_VERSION:${{steps.chart_version.outputs.tag}}
 
       - name: Replace Version in Chart.yaml
-        run: sed -i 's/CHART_VERSION/${{ steps.chart_version.outputs.tag }}/g' ./template/Chart.yaml
+        run: sed -i 's/CHART_VERSION/${{ steps.chart_version.outputs.tag }}/g' ./blueprint/Chart.yaml
 
       - name: Publish Helm chart
         uses: stefanprodan/helm-gh-pages@master
