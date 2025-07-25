@@ -30,8 +30,3 @@ icon:
   # required: true
   # @schema
   name: ""
-# @schema
-# description: Krateo PlatformOps namespace, useful for default endpoints
-# type: string
-# @schema
-krateoNamespace: ""
