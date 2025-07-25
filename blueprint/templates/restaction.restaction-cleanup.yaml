@@ -10,7 +10,7 @@ spec:
     verb: GET
     endpointRef:
       name: snowplow-endpoint
-      namespace: {{ .Values.krateoNamespace }}
+      namespace: {{ default "krateo-system" (default dict .Values.global).krateoNamespace }}
     headers:
     - 'Accept: application/json'
     continueOnError: true
@@ -28,7 +28,7 @@ spec:
     verb: GET
     endpointRef:
       name: snowplow-endpoint
-      namespace: {{ .Values.krateoNamespace }}
+      namespace: {{ default "krateo-system" (default dict .Values.global).krateoNamespace }}
     headers:
     - 'Accept: application/json'
     continueOnError: true
@@ -46,7 +46,7 @@ spec:
     verb: GET
     endpointRef:
       name: snowplow-endpoint
-      namespace: {{ .Values.krateoNamespace }}
+      namespace: {{ default "krateo-system" (default dict .Values.global).krateoNamespace }}
     headers:
     - 'Accept: application/json'
     continueOnError: true

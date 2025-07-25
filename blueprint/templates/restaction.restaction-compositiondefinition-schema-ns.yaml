@@ -17,7 +17,7 @@ spec:
     - 'Accept: application/json'
     filter: ".status.resource"
   - name: getSchemaNotOrdered
-    path: ${ "/api/v1/namespaces/{{ .Release.Namespace }}/configmaps/" + (.getCompositionDefinitionResource) + "-v{{ .Values.composition.version | replace "." "-" }}-jsonschema-configmap" }
+    path: ${ "/api/v1/namespaces/{{ .Release.Namespace }}/configmaps/" + (.getCompositionDefinitionResource) + "-v{{ .Values.blueprint.version | replace "." "-" }}-jsonschema-configmap" }
     verb: GET
     headers:
     - 'Accept: application/json'

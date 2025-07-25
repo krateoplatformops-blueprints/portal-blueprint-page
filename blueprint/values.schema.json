@@ -36,12 +36,6 @@
       "title": "icon",
       "type": "object"
     },
-    "krateoNamespace": {
-      "default": "krateo-system",
-      "description": "Krateo PlatformOps namespace, useful for default endpoints",
-      "title": "krateoNamespace",
-      "type": "string"
-    },
     "title": {
       "default": "FireworksApp (Not Ordered Schema)",
       "description": "Template panel title",

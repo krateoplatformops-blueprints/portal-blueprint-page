@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-panel
   namespace: {{ .Release.Namespace }}
   labels:
-    krateo.io/portal-page: templates
+    krateo.io/portal-page: blueprints
 spec:
   apiRef:
     name: {{ .Release.Name }}-restaction-compositiondefinition-schema-ns
@@ -15,7 +15,7 @@ spec:
       - resourceRefId: template-panel-button
     tags:
       - {{ .Release.Namespace }}
-      - {{ .Values.composition.version }}
+      - {{ .Values.blueprint.version }}
     icon:
       name: {{ .Values.icon.name }}
     items:
