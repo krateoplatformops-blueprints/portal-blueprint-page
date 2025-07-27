@@ -3,8 +3,6 @@ kind: RESTAction
 metadata:
   name: {{ .Release.Name }}-restaction-schema-override-allows-ns
   namespace: {{ .Release.Namespace }}
-  annotations:
-    "krateo.io/verbose": "true"
 spec:
   api:
   - name: getCompositionDefinitionSchemaNs
@@ -45,11 +43,26 @@ spec:
       }    
   filter: >
     {
-      getSchemaNotOrdered: .getCompositionDefinitionSchemaNs.status.getSchemaNotOrdered,
+      getOrderedSchema: .getCompositionDefinitionSchemaNs.status.getOrderedSchema,
+      getNotOrderedSchema: .getCompositionDefinitionSchemaNs.status.getNotOrderedSchema,
+      getCompositionDefinitionResource: .getCompositionDefinitionSchemaNs.status.getCompositionDefinitionResource,
       allowedNamespaces: [
         [.allowedNamespaces[] | .status.allowed] as $allowed
         | [.getCompositionDefinitionSchemaNs.status.possibleNamespacesForComposition[] | .namespace]
         | to_entries
         | map(select($allowed[.key] == true) | .value)
+      ],
+      allowedNamespacesWithResource: [
+        [.allowedNamespaces[] | .status.allowed] as $allowed
+        | .getCompositionDefinitionSchemaNs.status.getCompositionDefinitionResource as $resource
+        | [.getCompositionDefinitionSchemaNs.status.possibleNamespacesForComposition[] | .namespace]
+        | to_entries
+        | map(
+            select($allowed[.key] == true)
+            | {
+                namespace: .value,
+                resource: $resource
+              }
+          )
       ]
     }

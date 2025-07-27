@@ -10,24 +10,24 @@ spec:
     name: {{ .Release.Name }}-restaction-compositiondefinition-schema-ns
     namespace: {{ .Release.Namespace }}
   widgetData:
-    clickActionId: template-click-action
+    clickActionId: blueprint-click-action
     footer:
-      - resourceRefId: template-panel-button
+      - resourceRefId: blueprint-panel-button
     tags:
       - {{ .Release.Namespace }}
       - {{ .Values.blueprint.version }}
     icon:
-      name: {{ .Values.icon.name }}
+      name: {{ .Values.panel.icon.name }}
     items:
-      - resourceRefId: template-panel-paragraph
-    title: {{ .Values.title }}
+      - resourceRefId: blueprint-panel-markdown
+    title: {{ .Values.panel.title }}
     actions:
       openDrawer:
-        - id: template-click-action
-          resourceRefId: template-form
+        - id: blueprint-click-action
+          resourceRefId: blueprint-form
           type: openDrawer
           size: large
-          title: {{ .Values.title }}
+          title: {{ .Values.panel.title }}
   widgetDataTemplate:
     - forPath: icon.color
       expression: ${ ((.getCompositionDefinition?.status?.conditions // []) | map(select(.type == "Ready") | if .status == "False" then "orange" elif .status == "True" then "green" else "grey" end) | first) // "grey" }
@@ -36,21 +36,25 @@ spec:
     - forPath: headerRight
       expression: ${ .getCompositionDefinition // {} | .metadata.creationTimestamp // "In the process of being created" }
   resourcesRefs:
-    - id: template-panel-paragraph
+    - id: blueprint-panel-markdown
       apiVersion: widgets.templates.krateo.io/v1beta1
-      name: {{ .Release.Name }}-panel-paragraph
+      name: {{ .Release.Name }}-panel-markdown
       namespace: {{ .Release.Namespace }}
-      resource: paragraphs
+      resource: markdowns
       verb: GET
-    - id: template-panel-button
+    - id: blueprint-panel-button
       apiVersion: widgets.templates.krateo.io/v1beta1
       name: {{ .Release.Name }}-panel-button-cleanup
       namespace: {{ .Release.Namespace }}
       resource: buttons
       verb: DELETE
-    - id: template-form
+    - id: blueprint-form
       apiVersion: widgets.templates.krateo.io/v1beta1
-      name: {{ .Release.Name }}-form
+      {{- if eq .Values.form.alphabeticalOrder true }}
+      name: {{ .Release.Name }}-form-alphabetical-order
+      {{- else }}
+      name: {{ .Release.Name }}-form-not-alphabetical-order
+      {{- end }}
       namespace: {{ .Release.Namespace }}
       resource: forms
       verb: GET

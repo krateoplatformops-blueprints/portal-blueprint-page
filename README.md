@@ -55,7 +55,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: core.krateo.io/v1alpha1
 kind: CompositionDefinition
 metadata:
-  name: portal-blueprint-page-blueprint
+  name: portal-blueprint-page
   namespace: krateo-system
 spec:
   chart:
@@ -68,15 +68,17 @@ EOF
 Install the Blueprint using, as metadata.name, the *Blueprint* name (the Helm Chart name of the blueprint):
 
 ```sh
+cat <<EOF | kubectl apply -f -
 apiVersion: composition.krateo.io/v0-0-1
-kind: Portalblueprintpage
+kind: PortalBlueprintPage
 metadata:
-  name: <blueprint-name>
-  namespace: <blueprint-namespace> 
+  name: frontend-github-scaffolding	
+  namespace: krateo-system
 spec:
   blueprint:
     version: 0.0.1 # this is the Blueprint version
   title: Frontend Scaffolding (GitHub.com)
   icon:
     name: fa-cubes
+EOF
 ```
