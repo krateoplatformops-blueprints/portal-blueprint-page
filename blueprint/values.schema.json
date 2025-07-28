@@ -1,50 +1,87 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
+  "additionalProperties": true,
   "properties": {
     "blueprint": {
       "additionalProperties": false,
       "description": "Blueprint properties",
       "properties": {
+        "hasPage": {
+          "default": true,
+          "description": "Blueprints dedicated page (Composition)",
+          "title": "hasPage",
+          "type": "boolean"
+        },
         "version": {
-          "default": "2.0.2",
-          "description": "Blueprint version",
+          "default": "0.0.1",
+          "description": "Blueprints version",
           "title": "version",
           "type": "string"
         }
       },
       "required": [
-        "version"
+        "version",
+        "hasPage"
       ],
       "title": "blueprint",
       "type": "object"
     },
-    "icon": {
+    "form": {
       "additionalProperties": false,
-      "description": "Template panel icon properties",
+      "description": "Blueprint form properties",
       "properties": {
-        "name": {
-          "default": "fa-cubes",
-          "description": "Template panel icon name",
-          "title": "name",
+        "alphabeticalOrder": {
+          "default": false,
+          "description": "Blueprint form keys order",
+          "title": "alphabeticalOrder",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "alphabeticalOrder"
+      ],
+      "title": "form",
+      "type": "object"
+    },
+    "panel": {
+      "additionalProperties": false,
+      "description": "Blueprint panel properties",
+      "properties": {
+        "icon": {
+          "additionalProperties": false,
+          "description": "Blueprint panel icon properties",
+          "properties": {
+            "name": {
+              "default": "fa-cubes",
+              "description": "Bleprint panel icon name",
+              "title": "name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "title": "icon",
+          "type": "object"
+        },
+        "title": {
+          "default": "Frontend Scaffolding (GitHub.com)",
+          "description": "Blueprint panel title",
+          "title": "title",
           "type": "string"
         }
       },
       "required": [
-        "name"
+        "title"
       ],
-      "title": "icon",
+      "title": "panel",
       "type": "object"
-    },
-    "title": {
-      "default": "FireworksApp (Not Ordered Schema)",
-      "description": "Template panel title",
-      "title": "title",
-      "type": "string"
     }
   },
   "required": [
-    "title"
+    "blueprint",
+    "form",
+    "panel"
   ],
   "type": "object"
 }

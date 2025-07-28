@@ -1,8 +1,0 @@
-kind: Paragraph
-apiVersion: widgets.templates.krateo.io/v1beta1
-metadata:
-  name: {{ .Release.Name }}-panel-paragraph
-  namespace: {{ .Release.Namespace }}
-spec:
-  widgetData:
-    text: Click here to deploy a {{ .Release.Name }} composition (values.schema.json order form)

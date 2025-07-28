@@ -5,6 +5,7 @@
 # @schema
 # description: Blueprint properties
 # type: object
+# required: true
 # @schema
 blueprint:
   # @schema
@@ -12,21 +13,49 @@ blueprint:
   # type: string
   # required: true
   # @schema
-  version: ""
+  version: 0.0.1
+  # @schema
+  # description: Blueprints dedicated page (Composition)
+  # type: boolean
+  # required: true
+  # default: true
+  # @schema
+  hasPage: false
+
 # @schema
-# description: Template panel title 
-# type: string
+# description: Blueprint form properties 
+# type: object
 # required: true
 # @schema
-title: ""
-# @schema
-# description: Template panel icon properties 
-# type: object
-# @schema
-icon:
+form:
   # @schema
-  # description: Template panel icon name 
+  # description: Blueprint form keys order 
+  # type: boolean
+  # required: true
+  # default: false
+  # @schema
+  alphabeticalOrder: true
+
+# @schema
+# description: Blueprint panel properties 
+# type: object
+# required: true
+# @schema
+panel:
+  # @schema
+  # description: Blueprint panel title 
   # type: string
   # required: true
   # @schema
-  name: ""
+  title: Frontend Scaffolding (GitHub.com)
+  # @schema
+  # description: Blueprint panel icon properties 
+  # type: object
+  # @schema
+  icon:
+    # @schema
+    # description: Bleprint panel icon name 
+    # type: string
+    # required: true
+    # @schema
+    name: fa-cubes

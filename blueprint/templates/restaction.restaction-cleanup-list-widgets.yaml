@@ -53,29 +53,3 @@ spec:
         )
       | $w + { plural: .plural }
     ]
-
-
-
-  # - name: namespaces
-  #   path: "/api/v1/namespaces"
-  #   filter: "[.items[] | .metadata.name]"
-  #   continueOnError: true
-
-  # - name: deletePanel
-  #   path: "/apis/widgets.templates.krateo.io/v1beta1/namespaces/{{ .Release.Namespace }}/panels/{{ .Release.Name }}-panel"
-  #   verb: DELETE
-  # - name: deletePanelParagraph
-  #   path: "/apis/widgets.templates.krateo.io/v1beta1/namespaces/{{ .Release.Namespace }}/paragraphs/{{ .Release.Name }}-panel-paragraph"
-  #   verb: DELETE
-  # - name: deletePanelButton
-  #   path: "/apis/widgets.templates.krateo.io/v1beta1/namespaces/{{ .Release.Namespace }}/buttons/{{ .Release.Name }}-panel-button"
-  #   verb: DELETE
-  # - name: deleteCompositionDefinition
-  #   path: "/apis/core.krateo.io/v1alpha1/namespaces/{{ .Release.Namespace }}/compositiondefinitions/{{ .Release.Name }}"
-  #   verb: DELETE
-  # - name: deleteRestActionCleanup
-  #   path: "/apis/templates.krateo.io/v1/namespaces/{{ .Release.Namespace }}/restactions/{{ .Release.Name }}-restaction-cleanup"
-  #   verb: DELETE
-  # - name: deleteRestActionCleanup
-  #   path: "/apis/templates.krateo.io/v1/namespaces/{{ .Release.Namespace }}/restactions/{{ .Release.Name }}-restaction-cleanup"
-  #   verb: DELETE
