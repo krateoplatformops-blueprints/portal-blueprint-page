@@ -7,13 +7,12 @@
       "description": "Blueprint properties",
       "properties": {
         "hasPage": {
-          "default": true,
           "description": "Blueprints dedicated page (Composition)",
+          "default": true,
           "title": "hasPage",
           "type": "boolean"
         },
         "version": {
-          "default": "0.0.1",
           "description": "Blueprints version",
           "title": "version",
           "type": "string"
@@ -31,7 +30,7 @@
       "description": "Blueprint form properties",
       "properties": {
         "alphabeticalOrder": {
-          "default": false,
+          "default": true,
           "description": "Blueprint form keys order",
           "title": "alphabeticalOrder",
           "type": "boolean"
@@ -65,7 +64,6 @@
           "type": "object"
         },
         "title": {
-          "default": "Frontend Scaffolding (GitHub.com)",
           "description": "Blueprint panel title",
           "title": "title",
           "type": "string"
