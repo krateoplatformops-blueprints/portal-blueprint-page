@@ -36,25 +36,26 @@ spec:
     - forPath: headerRight
       expression: ${ .getCompositionDefinition // {} | .metadata.creationTimestamp // "In the process of being created" }
   resourcesRefs:
-    - id: blueprint-panel-markdown
-      apiVersion: widgets.templates.krateo.io/v1beta1
-      name: {{ .Release.Name }}-panel-markdown
-      namespace: {{ .Release.Namespace }}
-      resource: markdowns
-      verb: GET
-    - id: blueprint-panel-button
-      apiVersion: widgets.templates.krateo.io/v1beta1
-      name: {{ .Release.Name }}-panel-button-cleanup
-      namespace: {{ .Release.Namespace }}
-      resource: buttons
-      verb: DELETE
-    - id: blueprint-form
-      apiVersion: widgets.templates.krateo.io/v1beta1
-      {{- if eq .Values.form.alphabeticalOrder true }}
-      name: {{ .Release.Name }}-form-alphabetical-order
-      {{- else }}
-      name: {{ .Release.Name }}-form-not-alphabetical-order
-      {{- end }}
-      namespace: {{ .Release.Namespace }}
-      resource: forms
-      verb: GET
+    items:
+      - id: blueprint-panel-markdown
+        apiVersion: widgets.templates.krateo.io/v1beta1
+        name: {{ .Release.Name }}-panel-markdown
+        namespace: {{ .Release.Namespace }}
+        resource: markdowns
+        verb: GET
+      - id: blueprint-panel-button
+        apiVersion: widgets.templates.krateo.io/v1beta1
+        name: {{ .Release.Name }}-panel-button-cleanup
+        namespace: {{ .Release.Namespace }}
+        resource: buttons
+        verb: DELETE
+      - id: blueprint-form
+        apiVersion: widgets.templates.krateo.io/v1beta1
+        {{- if eq .Values.form.alphabeticalOrder true }}
+        name: {{ .Release.Name }}-form-alphabetical-order
+        {{- else }}
+        name: {{ .Release.Name }}-form-not-alphabetical-order
+        {{- end }}
+        namespace: {{ .Release.Namespace }}
+        resource: forms
+        verb: GET

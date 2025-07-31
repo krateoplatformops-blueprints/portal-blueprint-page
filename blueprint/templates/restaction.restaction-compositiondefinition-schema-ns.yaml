@@ -15,7 +15,7 @@ spec:
     verb: GET
     headers:
     - 'Accept: application/json'
-    filter: ".status.resource"
+    filter: ".getCompositionDefinitionResource.status.resource"
   - name: getOrderedSchema
     path: ${ "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/" + (.getCompositionDefinitionResource) + ".composition.krateo.io" }
     verb: GET
@@ -24,7 +24,7 @@ spec:
     dependsOn: 
       name: getCompositionDefinitionResource
     filter: >
-      .spec.versions[] | select(.name == "v{{ .Values.blueprint.version | replace "." "-" }}") | .schema.openAPIV3Schema.properties.spec
+      .getOrderedSchema.spec.versions[] | select(.name == "v{{ .Values.blueprint.version | replace "." "-" }}") | .schema.openAPIV3Schema.properties.spec
   - name: getNotOrderedSchema
     path: ${ "/api/v1/namespaces/{{ .Release.Namespace }}/configmaps/" + (.getCompositionDefinitionResource) + "-v{{ .Values.blueprint.version | replace "." "-" }}-jsonschema-configmap" }
     verb: GET
@@ -32,10 +32,10 @@ spec:
     - 'Accept: application/json'
     dependsOn: 
       name: getCompositionDefinitionResource
-    filter: ".data"
+    filter: ".getNotOrderedSchema.data"
   - name: getNamespaces
     path: "/api/v1/namespaces"
-    filter: "[.items[] | .metadata.name]"
+    filter: "[.getNamespaces.items[] | .metadata.name]"
   filter: >
     {
       getOrderedSchema: .getOrderedSchema,
