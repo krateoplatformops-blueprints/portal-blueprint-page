@@ -13,7 +13,7 @@ blueprint:
   # type: string
   # required: true
   # @schema
-  version: ""
+  version: 0.0.1
   # @schema
   # description: Blueprints dedicated page (Composition)
   # type: boolean
@@ -34,7 +34,7 @@ form:
   # required: true
   # default: false
   # @schema
-  alphabeticalOrder: true
+  alphabeticalOrder: false
 
 # @schema
 # description: Blueprint panel properties 
@@ -47,7 +47,7 @@ panel:
   # type: string
   # required: true
   # @schema
-  title: ""
+  title: Frontend GitHub Scaffolding
   # @schema
   # description: Blueprint panel icon properties 
   # type: object
@@ -58,4 +58,4 @@ panel:
     # type: string
     # required: true
     # @schema
-    name: ""
+    name: fa-cubes

@@ -17,9 +17,10 @@ spec:
           onSuccessNavigateTo: /templates
           successMessage: "Successfully deleted {{ .Release.Name }} blueprint in {{ .Release.Namespace }}"
   resourcesRefs:
-    - id: cleanup
-      apiVersion: templates.krateo.io/v1
-      resource: restactions
-      name: {{ .Release.Name }}-restaction-cleanup
-      namespace: {{ .Release.Namespace }}
-      verb: GET
+    items:
+      - id: cleanup
+        apiVersion: templates.krateo.io/v1
+        resource: restactions
+        name: {{ .Release.Name }}-restaction-cleanup
+        namespace: {{ .Release.Namespace }}
+        verb: GET

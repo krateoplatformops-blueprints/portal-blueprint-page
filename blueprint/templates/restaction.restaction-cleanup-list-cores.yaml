@@ -11,7 +11,7 @@ spec:
   #   meta.helm.sh/release-namespace = {{ .Release.Namespace }}
   - name: coresCrds
     path: "/apis/apiextensions.k8s.io/v1/customresourcedefinitions"
-    filter: "[.items[] | select(.spec.group == \"core.krateo.io\") | {storedVersion: .status.storedVersions[0], plural: .status.acceptedNames.plural} ]"
+    filter: "[.coresCrds.items[] | select(.spec.group == \"core.krateo.io\") | {storedVersion: .status.storedVersions[0], plural: .status.acceptedNames.plural} ]"
     continueOnError: true
   - name: getCores
     path: ${"/apis/core.krateo.io/" + (.storedVersion)+ "/namespaces/{{ .Release.Namespace }}/" + (.plural)}
@@ -20,7 +20,7 @@ spec:
       iterator: .coresCrds
     filter: >
       [
-        .items[] 
+        .getCores.items[] 
         | select(
             .metadata.annotations["meta.helm.sh/release-name"]? == "{{ .Release.Name }}"
             and 

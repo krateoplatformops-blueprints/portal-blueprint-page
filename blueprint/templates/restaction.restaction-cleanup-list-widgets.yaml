@@ -11,7 +11,7 @@ spec:
   #   meta.helm.sh/release-namespace = {{ .Release.Namespace }}
   - name: widgetsCrds
     path: "/apis/apiextensions.k8s.io/v1/customresourcedefinitions"
-    filter: "[.items[] | select(.spec.group == \"widgets.templates.krateo.io\") | {storedVersion: .status.storedVersions[0], plural: .status.acceptedNames.plural} ]"
+    filter: "[.widgetsCrds.items[] | select(.spec.group == \"widgets.templates.krateo.io\") | {storedVersion: .status.storedVersions[0], plural: .status.acceptedNames.plural} ]"
     continueOnError: true
   - name: getWidgets
     path: ${"/apis/widgets.templates.krateo.io/" + (.storedVersion)+ "/namespaces/{{ .Release.Namespace }}/" + (.plural)}
@@ -20,7 +20,7 @@ spec:
       iterator: .widgetsCrds
     filter: >
       [
-        .items[] 
+        .getWidgets.items[] 
         | select(
             .metadata.annotations["meta.helm.sh/release-name"]? == "{{ .Release.Name }}"
             and 
