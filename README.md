@@ -29,9 +29,13 @@ Modify the *portal-blueprint-page-values.yaml* file as the following example:
 ```yaml
 blueprint:
   version: 0.0.1 # this is the Blueprint version
-title: Frontend Scaffolding (GitHub.com)
-icon:
-  name: fa-cubes
+  hasPage: false
+form:
+  alphabeticalOrder: false
+panel:
+  title: Frontend GitHub Scaffolding
+  icon:
+    name: fa-cubes
 ```
 
 Install the Blueprint using, as a release name, the *Blueprint* name (the Helm Chart name of the blueprint):
@@ -77,8 +81,12 @@ metadata:
 spec:
   blueprint:
     version: 0.0.1 # this is the Blueprint version
-  title: Frontend Scaffolding (GitHub.com)
-  icon:
-    name: fa-cubes
+    hasPage: false
+  form:
+    alphabeticalOrder: false
+  panel:
+    title: Frontend GitHub Scaffolding
+    icon:
+      name: fa-cubes
 EOF
 ```
