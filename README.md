@@ -33,7 +33,7 @@ blueprint:
 form:
   alphabeticalOrder: false
 panel:
-  title: Frontend GitHub Scaffolding
+  title: GitHub Scaffolding
   icon:
     name: fa-cubes
 ```
@@ -41,9 +41,9 @@ panel:
 Install the Blueprint using, as a release name, the *Blueprint* name (the Helm Chart name of the blueprint):
 
 ```sh
-helm install <blueprint-name> template \
+helm install github-scaffolding template \
   --repo https://marketplace.krateo.io \
-  --namespace <blueprint-namespace> \
+  --namespace demo-system \
   --create-namespace \
   -f ~/portal-blueprint-page-values.yaml
   --version 0.0.1 \
@@ -76,8 +76,8 @@ cat <<EOF | kubectl apply -f -
 apiVersion: composition.krateo.io/v0-0-1
 kind: PortalBlueprintPage
 metadata:
-  name: frontend-github-scaffolding	
-  namespace: krateo-system
+  name: github-scaffolding	
+  namespace: demo-system
 spec:
   blueprint:
     version: 0.0.1 # this is the Blueprint version
@@ -85,7 +85,7 @@ spec:
   form:
     alphabeticalOrder: false
   panel:
-    title: Frontend GitHub Scaffolding
+    title: GitHub Scaffolding
     icon:
       name: fa-cubes
 EOF
