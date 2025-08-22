@@ -22,8 +22,8 @@ spec:
             {{- end }}
             timeout: 50
           payloadKey: spec
-          # successMessage: "Composition ${metadata.name} successfully deployed in namespace ${metadata.namespace}"
-          # errorMessage: "Composition ${metadata.name} deployment failed in namespace ${metadata.namespace}"
+          successMessage: '${"Successfully deployed " + .response.kind + " composition in namespace " + .response.namespace }'
+          errorMessage: '${"Composition deployment failed" }'
           resourceRefId: composition-to-post
           type: rest
           payloadToOverride:
