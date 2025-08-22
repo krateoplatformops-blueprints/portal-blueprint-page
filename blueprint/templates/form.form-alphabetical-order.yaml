@@ -22,7 +22,7 @@ spec:
             {{- end }}
             timeout: 50
           payloadKey: spec
-          successMessage: '${"Successfully deployed " + .response.kind + " composition in namespace " + .response.namespace }'
+          successMessage: '${"Successfully deployed " + .response.metadata.name + " composition in namespace " + .response.metadata.namespace }'
           errorMessage: '${"Composition deployment failed" }'
           resourceRefId: composition-to-post
           type: rest
