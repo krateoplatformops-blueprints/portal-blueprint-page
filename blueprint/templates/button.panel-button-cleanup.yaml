@@ -5,6 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
+    allowedResources:
+      - restactions
     icon: fa-trash
     type: default
     shape: circle
@@ -14,7 +16,7 @@ spec:
         - id: cleanup
           resourceRefId: cleanup
           type: rest
-          onSuccessNavigateTo: /templates
+          onSuccessNavigateTo: /blueprints
           successMessage: "Successfully deleted {{ .Release.Name }} blueprint in {{ .Release.Namespace }}"
   resourcesRefs:
     items:
