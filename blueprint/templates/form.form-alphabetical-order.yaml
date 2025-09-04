@@ -8,6 +8,7 @@ metadata:
     "krateo.io/verbose": "true"
 spec:
   widgetData:
+    allowedResources: []
     schema: {}
     submitActionId: submit-action-from-string-schema
     actions:
@@ -16,7 +17,7 @@ spec:
           onEventNavigateTo:
             eventReason: "CompositionCreated"
             {{- if eq .Values.blueprint.hasPage true }}
-            url: "/compositions/${metadata.namespace}/${metadata.name}"            
+            url: '${ "/compositions/" + .response.metadata.namespace + "/" + .response.metadata.name }'            
             {{- else }}
             url: "/blueprints"
             {{- end }}
