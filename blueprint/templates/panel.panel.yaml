@@ -10,10 +10,6 @@ spec:
     name: {{ .Release.Name }}-restaction-compositiondefinition-schema-ns
     namespace: {{ .Release.Namespace }}
   widgetData:
-    allowedResources:
-      - markdowns
-      - buttons
-      - forms
     clickActionId: blueprint-click-action
     footer:
       - resourceRefId: blueprint-panel-button
