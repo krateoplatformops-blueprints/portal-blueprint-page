@@ -73,7 +73,7 @@ Install the Blueprint using, as metadata.name, the *Blueprint* name (the Helm Ch
 
 ```sh
 cat <<EOF | kubectl apply -f -
-apiVersion: composition.krateo.io/v0-0-1
+apiVersion: composition.krateo.io/v1-0-0
 kind: PortalBlueprintPage
 metadata:
   name: github-scaffolding	
