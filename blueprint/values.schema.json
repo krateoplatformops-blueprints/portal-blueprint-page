@@ -16,11 +16,17 @@
           "description": "Blueprints version",
           "title": "version",
           "type": "string"
+        },
+        "url": {
+          "description": "Blueprints url",
+          "title": "version",
+          "type": "string"
         }
       },
       "required": [
         "version",
-        "hasPage"
+        "hasPage",
+        "url"
       ],
       "title": "blueprint",
       "type": "object"

@@ -9,6 +9,12 @@
 # @schema
 blueprint:
   # @schema
+  # description: Blueprints url
+  # type: string
+  # required: true
+  # @schema
+  url: https://marketplace.krateo.io
+  # @schema
   # description: Blueprints version
   # type: string
   # required: true

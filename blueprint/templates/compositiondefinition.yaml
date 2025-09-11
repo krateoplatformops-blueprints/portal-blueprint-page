@@ -6,5 +6,5 @@ metadata:
 spec:
   chart:
     repo: {{ .Release.Name }}
-    url: https://marketplace.krateo.io
+    url: {{ .Values.blueprint.url }}
     version: {{ .Values.blueprint.version }}
