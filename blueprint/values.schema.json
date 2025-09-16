@@ -21,6 +21,41 @@
           "description": "Blueprints url",
           "title": "version",
           "type": "string"
+        },
+        "credentials": {
+          "description": "Authentication configuration for private registries",
+          "title": "credentials",
+          "type": "object",
+          "properties": {
+            "username": {
+              "description": "Registry username",
+              "title": "username",
+              "type": "string"
+            },
+            "passwordRef": {
+              "description": "Reference to a secret containing the registry password or token",
+              "title": "passwordRef",
+              "type": "object",
+              "properties": {
+                "key": {
+                  "description": "Secret key",
+                  "title": "key",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "Secret name",
+                  "title": "name",
+                  "type": "string"
+                },
+                "namespace": {
+                  "description": "Secret namespace",
+                  "title": "namespace",
+                  "type": "string"
+                }
+              },
+              "required": ["key", "name", "namespace"]
+            }
+          }
         }
       },
       "required": [
