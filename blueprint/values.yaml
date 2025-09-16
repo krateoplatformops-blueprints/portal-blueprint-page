@@ -21,6 +21,39 @@ blueprint:
   # @schema
   version: 0.0.1
   # @schema
+  # description: Blueprints registry credentials authentication properties
+  # type: object
+  # @schema
+  credentials: 
+    # @schema
+    # description: Blueprints registry credentials username authentication 
+    # type: string
+    # @schema
+    username: yourusername 
+    # @schema
+    # description: Blueprints registry credentials password authentication properties
+    # type: object
+    # @schema
+    passwordRef: 
+      # @schema
+      # description: Blueprints registry credentials password authentication secret key
+      # type: string
+      # required: true
+      # @schema
+      key: token 
+      # @schema
+      # description: Blueprints registry credentials password authentication secret name
+      # type: string
+      # required: true
+      # @schema
+      name: docker-hub 
+      # @schema
+      # description: Blueprints registry credentials password authentication secret namespace
+      # type: string
+      # required: true
+      # @schema
+      namespace: krateo-system
+  # @schema
   # description: Blueprints dedicated page (Composition)
   # type: boolean
   # required: true
