@@ -60,8 +60,7 @@
       },
       "required": [
         "version",
-        "hasPage",
-        "url"
+        "hasPage"
       ],
       "title": "blueprint",
       "type": "object"
