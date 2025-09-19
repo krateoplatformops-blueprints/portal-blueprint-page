@@ -16,6 +16,8 @@ spec:
           type: rest
           onSuccessNavigateTo: /blueprints
           successMessage: "Successfully deleted {{ .Release.Name }} blueprint in {{ .Release.Namespace }}"
+          headers:
+          - "Content-Type: application/json"
   resourcesRefs:
     items:
       - id: cleanup
