@@ -21,13 +21,14 @@ Download Helm Chart values:
 ```sh
 helm repo add marketplace https://marketplace.krateo.io
 helm repo update marketplace
-helm inspect values marketplace/portal-blueprint-page --version 1.0.0 > ~/portal-blueprint-page-values.yaml
+helm inspect values marketplace/portal-blueprint-page --version 1.0.4 > ~/portal-blueprint-page-values.yaml
 ```
 
 Modify the *portal-blueprint-page-values.yaml* file as the following example:
 
 ```yaml
 blueprint:
+  url: https://marketplace.krateo.io
   version: 1.0.0 # this is the Blueprint version
   hasPage: false
 form:
@@ -46,7 +47,7 @@ helm install github-scaffolding template \
   --namespace demo-system \
   --create-namespace \
   -f ~/portal-blueprint-page-values.yaml
-  --version 1.0.0 \
+  --version 1.0.4 \
   --wait
 ```
 
@@ -65,7 +66,7 @@ spec:
   chart:
     repo: portal-blueprint-page
     url: https://marketplace.krateo.io
-    version: 1.0.0
+    version: 1.0.4
 EOF
 ```
 
@@ -73,13 +74,14 @@ Install the Blueprint using, as metadata.name, the *Blueprint* name (the Helm Ch
 
 ```sh
 cat <<EOF | kubectl apply -f -
-apiVersion: composition.krateo.io/v1-0-0
+apiVersion: composition.krateo.io/v1-0-4
 kind: PortalBlueprintPage
 metadata:
   name: github-scaffolding	
   namespace: demo-system
 spec:
   blueprint:
+    url: https://marketplace.krateo.io
     version: 1.0.0 # this is the Blueprint version
     hasPage: false
   form:
