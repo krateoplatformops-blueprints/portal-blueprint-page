@@ -21,16 +21,16 @@ spec:
             url: "/blueprints"
             {{- end }}
             timeout: 50
-          payloadKey: spec
           successMessage: '${"Successfully deployed " + .response.metadata.name + " composition in namespace " + .response.metadata.namespace }'
-          errorMessage: '${"Composition deployment failed" }'
           resourceRefId: composition-to-post
           type: rest
           payloadToOverride:
+          - name: spec
+            value: ${ .json | del(.composition) }
           - name: metadata.name
-            value: ${ composition.name }
+            value: ${ .json.composition.name }
           - name: metadata.namespace
-            value: ${ composition.namespace }
+            value: ${ .json.composition.namespace }
           headers:
           - "Content-Type: application/json"
   widgetDataTemplate:
