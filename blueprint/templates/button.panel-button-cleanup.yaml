@@ -21,8 +21,8 @@ spec:
   resourcesRefs:
     items:
       - id: cleanup
-        apiVersion: templates.krateo.io/v1
-        resource: restactions
-        name: {{ .Release.Name }}-restaction-cleanup
+        apiVersion: composition.krateo.io/v{{ .Chart.Version | replace "." "-" }}
+        resource: portalblueprintpages
+        name: {{ .Release.Name }}
         namespace: {{ .Release.Namespace }}
-        verb: GET
+        verb: DELETE
