@@ -13,21 +13,21 @@
           "type": "boolean"
         },
         "url": {
-          "default": "https://marketplace.krateo.io",
+          "default": "",
           "description": "Blueprints url",
           "title": "url",
           "type": "string"
         },
         "version": {
-          "default": "0.0.1",
+          "default": "",
           "description": "Blueprints version",
           "title": "version",
           "type": "string"
         }
       },
       "required": [
-        "version",
-        "hasPage"
+        "url",
+        "version"
       ],
       "title": "blueprint",
       "type": "object"
@@ -55,10 +55,6 @@
           "type": "string"
         }
       },
-      "required": [
-        "alphabeticalOrder",
-        "hasPage"
-      ],
       "title": "form",
       "type": "object"
     },
@@ -71,20 +67,17 @@
           "description": "Blueprint panel icon properties",
           "properties": {
             "name": {
-              "default": "fa-cubes",
+              "default": "",
               "description": "Bleprint panel icon name",
               "title": "name",
               "type": "string"
             }
           },
-          "required": [
-            "name"
-          ],
           "title": "icon",
           "type": "object"
         },
         "title": {
-          "default": "GitHub Scaffolding",
+          "default": "",
           "description": "Blueprint panel title",
           "title": "title",
           "type": "string"

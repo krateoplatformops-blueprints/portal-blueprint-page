@@ -11,18 +11,20 @@ blueprint:
   # @schema
   # description: Blueprints url
   # type: string
+  # required: true
+  # example: https://marketplace.krateo.io
   # @schema
-  url: https://marketplace.krateo.io
+  url: ""
   # @schema
   # description: Blueprints version
   # type: string
   # required: true
+  # example: 0.0.1
   # @schema
-  version: 0.0.1
+  version: ""
   # @schema
   # description: Blueprints dedicated page (Composition)
   # type: boolean
-  # required: true
   # default: true
   # @schema
   hasPage: false
@@ -36,14 +38,12 @@ form:
   # @schema
   # description: Blueprint form keys order 
   # type: boolean
-  # required: true
   # default: false
   # @schema
   alphabeticalOrder: false
   # @schema
   # description: Blueprints dedicated page (Blueprint)
   # type: boolean
-  # required: true
   # default: true
   # @schema
   hasPage: true
@@ -63,8 +63,9 @@ panel:
   # description: Blueprint panel title 
   # type: string
   # required: true
+  # example: GitHub Scaffolding
   # @schema
-  title: GitHub Scaffolding
+  title: ""
   # @schema
   # description: Blueprint panel icon properties 
   # type: object
@@ -73,6 +74,6 @@ panel:
     # @schema
     # description: Bleprint panel icon name 
     # type: string
-    # required: true
+    # example: fa-cubes
     # @schema
-    name: fa-cubes
+    name: ""
