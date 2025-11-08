@@ -28,11 +28,43 @@ blueprint:
   # default: true
   # @schema
   hasPage: false
+  # @schema
+  # description: Authentication configuration for private registries
+  # type: object
+  # @schema
+  credentials:
+    # @schema
+    # description: Registry username
+    # type: string
+    # @schema
+    username: ""
+    # @schema
+    # description: Reference to a secret containing the registry password or token
+    # type: object
+    # @schema
+    passwordRef:
+      # @schema
+      # description: Secret key
+      # type: string
+      # required: true
+      # @schema
+      key: ""
+      # @schema
+      # description: Secret name
+      # type: string
+      # required: true
+      # @schema
+      name: ""
+      # @schema
+      # description: Secret namespace
+      # type: string
+      # required: true
+      # @schema
+      namespace: ""
 
 # @schema
 # description: Blueprint form properties 
 # type: object
-# required: true
 # @schema
 form:
   # @schema
