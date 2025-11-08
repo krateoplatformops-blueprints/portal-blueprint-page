@@ -1,61 +1,28 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "properties": {
     "blueprint": {
       "additionalProperties": false,
       "description": "Blueprint properties",
       "properties": {
         "hasPage": {
-          "description": "Blueprints dedicated page (Composition)",
           "default": true,
+          "description": "Blueprints dedicated page (Composition)",
           "title": "hasPage",
           "type": "boolean"
         },
+        "url": {
+          "default": "https://marketplace.krateo.io",
+          "description": "Blueprints url",
+          "title": "url",
+          "type": "string"
+        },
         "version": {
+          "default": "0.0.1",
           "description": "Blueprints version",
           "title": "version",
           "type": "string"
-        },
-        "url": {
-          "description": "Blueprints url",
-          "title": "version",
-          "type": "string"
-        },
-        "credentials": {
-          "description": "Authentication configuration for private registries",
-          "title": "credentials",
-          "type": "object",
-          "properties": {
-            "username": {
-              "description": "Registry username",
-              "title": "username",
-              "type": "string"
-            },
-            "passwordRef": {
-              "description": "Reference to a secret containing the registry password or token",
-              "title": "passwordRef",
-              "type": "object",
-              "properties": {
-                "key": {
-                  "description": "Secret key",
-                  "title": "key",
-                  "type": "string"
-                },
-                "name": {
-                  "description": "Secret name",
-                  "title": "name",
-                  "type": "string"
-                },
-                "namespace": {
-                  "description": "Secret namespace",
-                  "title": "namespace",
-                  "type": "string"
-                }
-              },
-              "required": ["key", "name", "namespace"]
-            }
-          }
         }
       },
       "required": [
@@ -70,14 +37,27 @@
       "description": "Blueprint form properties",
       "properties": {
         "alphabeticalOrder": {
-          "default": true,
+          "default": false,
           "description": "Blueprint form keys order",
           "title": "alphabeticalOrder",
           "type": "boolean"
+        },
+        "hasPage": {
+          "default": true,
+          "description": "Blueprints dedicated page (Blueprint)",
+          "title": "hasPage",
+          "type": "boolean"
+        },
+        "instructions": {
+          "default": "",
+          "description": "Blueprints form instructions",
+          "title": "instructions",
+          "type": "string"
         }
       },
       "required": [
-        "alphabeticalOrder"
+        "alphabeticalOrder",
+        "hasPage"
       ],
       "title": "form",
       "type": "object"
@@ -104,6 +84,7 @@
           "type": "object"
         },
         "title": {
+          "default": "GitHub Scaffolding",
           "description": "Blueprint panel title",
           "title": "title",
           "type": "string"

@@ -40,6 +40,18 @@ form:
   # default: false
   # @schema
   alphabeticalOrder: false
+  # @schema
+  # description: Blueprints dedicated page (Blueprint)
+  # type: boolean
+  # required: true
+  # default: true
+  # @schema
+  hasPage: true
+  # @schema
+  # description: Blueprints form instructions
+  # type: string
+  # @schema
+  instructions: ""
 
 # @schema
 # description: Blueprint panel properties 

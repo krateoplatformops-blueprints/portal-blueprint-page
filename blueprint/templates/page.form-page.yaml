@@ -1,0 +1,21 @@
+{{- if eq .Values.form.hasPage true }}
+kind: Page
+apiVersion: widgets.templates.krateo.io/v1beta1
+metadata:
+  name: {{ .Release.Name }}-form-page
+  namespace: {{ .Release.Namespace }}
+spec:
+  widgetData:
+    allowedResources:
+      - rows
+    items:
+      - resourceRefId: form-page-row
+  resourcesRefs:
+    items:
+      - id: form-page-row
+        apiVersion: widgets.templates.krateo.io/v1beta1
+        name: {{ .Release.Name }}-form-page-row
+        namespace: {{ .Release.Namespace }}
+        resource: rows
+        verb: GET
+{{- end }}

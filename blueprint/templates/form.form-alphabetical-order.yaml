@@ -4,8 +4,6 @@ apiVersion: widgets.templates.krateo.io/v1beta1
 metadata:
   name: {{ .Release.Name }}-form-alphabetical-order
   namespace: {{ .Release.Namespace }}
-  annotations:
-    "krateo.io/verbose": "true"
 spec:
   widgetData:
     schema: {}
