@@ -1,0 +1,58 @@
+kind: Form
+apiVersion: widgets.templates.krateo.io/v1beta1
+metadata:
+  name: {{ .Release.Name }}-form
+  namespace: {{ .Release.Namespace }}
+  labels:
+    krateo.io/blueprint-form-name: {{ .Release.Name }}
+    krateo.io/blueprint-form-namespace: {{ .Release.Namespace }}
+    krateo.io/blueprint-form-path: {{ .Release.Name }}-blueprint
+spec:
+  widgetData:
+    schema:
+{{- toYaml .Values.form.widgetData.schema | nindent 6 }}
+    objectFields:
+{{- toYaml .Values.form.widgetData.objectFields | nindent 6 }}
+    submitActionId: {{ .Values.form.widgetData.submitActionId | quote }}
+    actions:
+      rest:
+{{- range .Values.form.widgetData.actions.rest }}
+        - id: {{ .id | quote }}
+          onEventNavigateTo:
+            eventReason: {{ .onEventNavigateTo.eventReason | quote }}
+            {{- if eq $.Values.blueprint.hasPage true }}
+            url: {{ .onEventNavigateTo.url }}
+            {{- else }}
+            url: {{ .onEventNavigateTo.urlIfNoPage | quote }}
+            {{- end }}
+            timeout: {{ .onEventNavigateTo.timeout }}
+          successMessage: {{ .successMessage }}
+          resourceRefId: {{ .resourceRefId | quote }}
+          type: {{ .type | quote }}
+          payloadToOverride:
+{{- toYaml .payloadToOverride | nindent 12 }}
+          headers:
+{{- toYaml .headers | nindent 12 }}
+{{- end }}
+  widgetDataTemplate:
+{{- range .Values.form.widgetDataTemplate }}
+    - forPath: {{ .forPath | quote }}
+      expression: |
+{{ .expression | nindent 8 }}
+{{- end }}
+  resourcesRefsTemplate:
+    - iterator: {{ .Values.form.resourcesRefsTemplate.iterator }}
+      template:
+        id: {{ .Values.form.resourcesRefsTemplate.template.id | quote }}
+        apiVersion: {{ printf "%s/%s%s" .Values.form.resourcesRefsTemplate.template.apiGroup .Values.form.resourcesRefsTemplate.template.apiVersionPrefix (replace "." "-" .Values.blueprint.version) | quote }}
+        namespace: ${ .namespace }
+        resource: {{ .Values.form.resourcesRefsTemplate.template.resource }}
+        verb: {{ .Values.form.resourcesRefsTemplate.template.verb | quote }}
+  apiRef:
+    name:
+      {{- if .Values.form.apiRef.name }}
+      {{ .Values.form.apiRef.name | quote }}
+      {{- else }}
+      {{ printf "%s-%s" .Release.Name .Values.form.apiRef.nameSuffix | quote }}
+      {{- end }}
+    namespace: {{ default .Release.Namespace .Values.form.apiRef.namespace | quote }}

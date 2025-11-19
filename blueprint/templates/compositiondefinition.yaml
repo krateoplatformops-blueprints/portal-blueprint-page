@@ -5,15 +5,19 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   chart:
+    {{- $url := .Values.blueprint.url }}
+    {{- if not (hasPrefix "oci://" $url) }}
     repo: {{ .Release.Name }}
-    url: {{ .Values.blueprint.url }}
+    {{- end }}
+    url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}
-    {{- with .Values.blueprint.credentials }}
+    {{- $creds := .Values.blueprint.credentials | default dict }}
+    {{- if gt (len $creds) 0 }}
     credentials:
-      {{- with .username }}
+      {{- with $creds.username }}
       username: {{ . | quote }}
       {{- end }}
-      {{- with .passwordRef }}
+      {{- with $creds.passwordRef }}
       passwordRef:
         {{- with .key }}
         key: {{ . | quote }}

@@ -5,8 +5,4 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
-    {{- if eq .Values.form.alphabeticalOrder true }}
-    markdown: Click here to deploy a **{{ .Release.Name }}** composition (_Custom Resource Definition_ order form)
-    {{- else }}
-    markdown: Click here to deploy a **{{ .Release.Name }}** composition (_values.schema.json_ order form)
-    {{- end }}
+    markdown: {{ tpl .Values.panel.markdown . | quote }}

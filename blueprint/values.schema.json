@@ -1,143 +1,502 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": true,
-  "properties": {
-    "blueprint": {
-      "additionalProperties": false,
-      "description": "Blueprint properties",
-      "properties": {
-        "credentials": {
-          "additionalProperties": false,
-          "description": "Authentication configuration for private registries",
-          "properties": {
-            "passwordRef": {
-              "additionalProperties": false,
-              "description": "Reference to a secret containing the registry password or token",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "blueprint": {
+        "type": "object",
+        "title": "Blueprint",
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Marketplace URL",
+            "default": "https://marketplace.krateo.io"
+          },
+          "version": {
+            "type": "string",
+            "title": "Blueprint Version",
+            "default": "0.2.2"
+          },
+          "hasPage": {
+            "type": "boolean",
+            "title": "Has Page",
+            "default": true
+          },
+          "credentials": {
+            "type": "object",
+            "title": "Credentials",
+            "description": "Optional credentials for the blueprint",
+            "default": {},
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      },
+  
+      "form": {
+        "type": "object",
+        "title": "Form",
+        "properties": {
+          "widgetData": {
+            "type": "object",
+            "title": "Widget Data",
+            "properties": {
+              "schema": {
+                "type": "object",
+                "title": "Composition Schema",
+                "description": "JSON schema for the composition spec",
+                "default": {},
+                "additionalProperties": true
+              },
+              "objectFields": {
+                "type": "array",
+                "title": "Object Fields",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "title": "Path"
+                    },
+                    "displayField": {
+                      "type": "string",
+                      "title": "Display Field"
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "displayField"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "submitActionId": {
+                "type": "string",
+                "title": "Submit Action ID",
+                "default": "submit-action-from-string-schema"
+              },
+              "actions": {
+                "type": "object",
+                "title": "Actions",
+                "properties": {
+                  "rest": {
+                    "type": "array",
+                    "title": "REST Actions",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "title": "Action ID"
+                        },
+                        "onEventNavigateTo": {
+                          "type": "object",
+                          "title": "On Event Navigate To",
+                          "properties": {
+                            "eventReason": {
+                              "type": "string"
+                            },
+                            "url": {
+                              "type": "string"
+                            },
+                            "urlIfNoPage": {
+                              "type": "string"
+                            },
+                            "timeout": {
+                              "type": "integer"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "successMessage": {
+                          "type": "string"
+                        },
+                        "resourceRefId": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "payloadToOverride": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "headers": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+  
+          "widgetDataTemplate": {
+            "type": "array",
+            "title": "Widget Data Template",
+            "items": {
+              "type": "object",
               "properties": {
-                "key": {
-                  "default": "",
-                  "description": "Secret key",
-                  "title": "key",
-                  "type": "string"
+                "forPath": {
+                  "type": "string",
+                  "title": "For Path"
                 },
-                "name": {
-                  "default": "",
-                  "description": "Secret name",
-                  "title": "name",
-                  "type": "string"
+                "expression": {
+                  "type": "string",
+                  "title": "Expression"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+  
+          "resourcesRefsTemplate": {
+            "type": "object",
+            "title": "Resources Refs Template",
+            "properties": {
+              "iterator": {
+                "type": "string",
+                "title": "Iterator Expression"
+              },
+              "template": {
+                "type": "object",
+                "title": "Template",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "apiGroup": {
+                    "type": "string"
+                  },
+                  "apiVersionPrefix": {
+                    "type": "string"
+                  },
+                  "resource": {
+                    "type": "string"
+                  },
+                  "verb": {
+                    "type": "string"
+                  }
                 },
-                "namespace": {
-                  "default": "",
-                  "description": "Secret namespace",
-                  "title": "namespace",
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": false
+          },
+  
+          "apiRef": {
+            "type": "object",
+            "title": "API Reference",
+            "properties": {
+              "name": {
+                "type": "string",
+                "title": "Name",
+                "default": ""
+              },
+              "nameSuffix": {
+                "type": "string",
+                "title": "Name Suffix",
+                "default": "restaction-schema-override-allows-ns"
+              },
+              "namespace": {
+                "type": "string",
+                "title": "Namespace",
+                "default": ""
+              }
+            },
+            "additionalProperties": false
+          },
+  
+          "hasPage": {
+            "type": "boolean",
+            "title": "Has Page",
+            "default": true
+          },
+  
+          "instructions": {
+            "type": "string",
+            "title": "Instructions",
+            "description": "Markdown instructions shown in the form"
+          }
+        },
+        "additionalProperties": false
+      },
+  
+      "panel": {
+        "type": "object",
+        "title": "Panel",
+        "properties": {
+          "markdown": {
+            "type": "string",
+            "title": "Markdown"
+          },
+          "apiRef": {
+            "type": "object",
+            "title": "API Reference",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "namespace": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "widgetData": {
+            "type": "object",
+            "title": "Widget Data",
+            "properties": {
+              "clickActionId": {
+                "type": "string"
+              },
+              "footer": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resourceRefId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              },
+              "tags": {
+                "type": "array",
+                "items": {
                   "type": "string"
                 }
               },
-              "required": [
-                "key",
-                "name",
-                "namespace"
-              ],
-              "title": "passwordRef",
-              "type": "object"
+              "icon": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resourceRefId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              },
+              "title": {
+                "type": "string"
+              },
+              "actions": {
+                "type": "object",
+                "properties": {
+                  "openDrawer": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "resourceRefId": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "size": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "navigate": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
             },
-            "username": {
-              "default": "",
-              "description": "Registry username",
-              "title": "username",
-              "type": "string"
+            "additionalProperties": false
+          },
+          "widgetDataTemplate": {
+            "type": "array",
+            "title": "Widget Data Template",
+            "items": {
+              "type": "object",
+              "properties": {
+                "forPath": {
+                  "type": "string"
+                },
+                "expression": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
             }
           },
-          "title": "credentials",
-          "type": "object"
+          "resourcesRefs": {
+            "type": "object",
+            "title": "Resources Refs",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "apiVersion": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "type": "string"
+                    },
+                    "resource": {
+                      "type": "string"
+                    },
+                    "verb": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
         },
-        "hasPage": {
-          "default": true,
-          "description": "Blueprints dedicated page (Composition)",
-          "title": "hasPage",
-          "type": "boolean"
-        },
-        "url": {
-          "default": "",
-          "description": "Blueprints url",
-          "title": "url",
-          "type": "string"
-        },
-        "version": {
-          "default": "",
-          "description": "Blueprints version",
-          "title": "version",
-          "type": "string"
-        }
+        "additionalProperties": false
       },
-      "required": [
-        "url",
-        "version"
-      ],
-      "title": "blueprint",
-      "type": "object"
-    },
-    "form": {
-      "additionalProperties": false,
-      "description": "Blueprint form properties",
-      "properties": {
-        "alphabeticalOrder": {
-          "default": false,
-          "description": "Blueprint form keys order",
-          "title": "alphabeticalOrder",
-          "type": "boolean"
-        },
-        "hasPage": {
-          "default": true,
-          "description": "Blueprints dedicated page (Blueprint)",
-          "title": "hasPage",
-          "type": "boolean"
-        },
-        "instructions": {
-          "default": "",
-          "description": "Blueprints form instructions",
-          "title": "instructions",
-          "type": "string"
-        }
-      },
-      "title": "form",
-      "type": "object"
-    },
-    "panel": {
-      "additionalProperties": false,
-      "description": "Blueprint panel properties",
-      "properties": {
-        "icon": {
-          "additionalProperties": false,
-          "description": "Blueprint panel icon properties",
+  
+      "restActions": {
+        "type": "array",
+        "title": "REST Actions",
+        "items": {
+          "type": "object",
           "properties": {
             "name": {
-              "default": "",
-              "description": "Bleprint panel icon name",
-              "title": "name",
+              "type": "string"
+            },
+            "namespace": {
+              "type": "string"
+            },
+            "api": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "verb": {
+                    "type": "string"
+                  },
+                  "headers": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "filter": {
+                    "type": "string"
+                  },
+                  "dependsOn": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "iterator": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": true
+                  },
+                  "endpointRef": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "continueOnError": {
+                    "type": "boolean"
+                  },
+                  "errorKey": {
+                    "type": "string"
+                  },
+                  "exportJwt": {
+                    "type": "boolean"
+                  },
+                  "payload": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "filter": {
               "type": "string"
             }
           },
-          "title": "icon",
-          "type": "object"
-        },
-        "title": {
-          "default": "",
-          "description": "Blueprint panel title",
-          "title": "title",
-          "type": "string"
+          "additionalProperties": false
         }
-      },
-      "required": [
-        "title"
-      ],
-      "title": "panel",
-      "type": "object"
-    }
-  },
-  "required": [
-    "blueprint",
-    "panel"
-  ],
-  "type": "object"
-}
+      }
+    },
+    "additionalProperties": true
+  }
+  

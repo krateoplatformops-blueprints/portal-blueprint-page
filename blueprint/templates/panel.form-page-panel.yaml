@@ -1,18 +1,19 @@
 kind: Panel
 apiVersion: widgets.templates.krateo.io/v1beta1
 metadata:
-  name: {{ .Release.Name }}-form-page-panel-markdown
+  name: {{ .Release.Name }}-form-page-panel
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
+    actions: {}
     items:
-      - resourceRefId: blueprint-panel-markdown
-    title: "Instructions"
+      - resourceRefId: form-page-panel-row
+    title: {{ .Values.panel.title }}
   resourcesRefs:
     items:
-      - id: blueprint-panel-markdown
+      - id: form-page-panel-row
         apiVersion: widgets.templates.krateo.io/v1beta1
-        name: {{ .Release.Name }}-form-page-panel-markdown
+        name: {{ .Release.Name }}-form-page-panel-row
         namespace: {{ .Release.Namespace }}
-        resource: markdowns
+        resource: rows
         verb: GET

@@ -1,21 +1,21 @@
 {{- if eq .Values.form.hasPage true }}
-kind: Page
+kind: Column
 apiVersion: widgets.templates.krateo.io/v1beta1
 metadata:
-  name: {{ .Release.Name }}-form-page
+  name: {{ .Release.Name }}-form-page-panel-row-column2
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
     allowedResources:
-      - panels
+      - forms
     items:
-      - resourceRefId: form-page-panel
+      - resourceRefId: form-page-panel-row-column2-markdown
   resourcesRefs:
     items:
-      - id: form-page-panel
+      - id: form-page-panel-row-column2-markdown
         apiVersion: widgets.templates.krateo.io/v1beta1
-        name: {{ .Release.Name }}-form-page-panel
+        name: {{ .Release.Name }}-form-page-panel-markdown
         namespace: {{ .Release.Namespace }}
-        resource: panels
+        resource: markdowns
         verb: GET
 {{- end }}
