@@ -1,6 +1,6 @@
 blueprint:
   url: https://marketplace.krateo.io
-  version: 0.2.2
+  version: 0.2.3
   hasPage: true
   credentials: {}
 
@@ -49,8 +49,10 @@ form:
         ${
           .getNotOrderedSchema["values.schema.json"] as $schema
           | .allowedNamespaces[] as $allowedNamespaces
+          | .featuresFrontend as $featuresFrontend
+          | .featuresBackend as $featuresBackend
 
-          # --- inject "composition" under "properties" ---
+          # --- inject "composition" under top-level "properties" ---
           | "\"properties\": " | length as $keylen
           | ($schema | index("\"properties\": ")) as $idx
           | ($schema[0:$idx + $keylen]) as $prefix
@@ -73,23 +75,77 @@ form:
           | ($prefix + $injected[:-1] + "," + $rest[1:]) as $withComposition
 
           # --- ensure top-level "required" includes "composition" ---
-          | if ($withComposition | test("\n  \"required\": \\[")) then
-              # There is already a top-level required array.
-              if ($withComposition | test("\n  \"required\": \\[[^\\]]*\"composition\"")) then
-                # "composition" is already required at top level → nothing to change.
-                $withComposition
+          | (
+              if ($withComposition | test("\n  \"required\": \\[")) then
+                if ($withComposition | test("\n  \"required\": \\[[^\\]]*\"composition\"")) then
+                  # "composition" already present at top-level
+                  $withComposition
+                else
+                  # prepend "composition" to existing top-level required array
+                  ($withComposition
+                  | gsub("\n  \"required\": \\["; "\n  \"required\": [\"composition\", "))
+                end
               else
-                # Inject "composition" at the beginning of the existing required list.
-                ($withComposition
-                | gsub("\n  \"required\": \\["; "\n  \"required\": [\"composition\", "))
+                # no top-level required: insert before top-level "type": "object"
+                ($withComposition | index("\n  \"type\": \"object\"")) as $tidx
+                | ($withComposition[0:$tidx+1]) as $p2
+                | ($withComposition[$tidx+1:]) as $r2
+                | $p2 + "  \"required\": [\"composition\"],\n" + $r2
               end
-            else
-              # No top-level required: insert a new one before top-level "type": "object".
-              ($withComposition | index("\n  \"type\": \"object\"")) as $tidx
-              | ($withComposition[0:$tidx+1]) as $p2
-              | ($withComposition[$tidx+1:]) as $r2
-              | $p2 + "  \"required\": [\"composition\"],\n" + $r2
-            end
+            ) as $schemaWithRequired
+
+          # --- build enum strings for frontend/backend features (arrays of strings) ---
+          | $featuresFrontend as $ff
+          | ($ff | map("\"" + . + "\"") | join(", ")) as $feEnumItems
+          | ("[" + $feEnumItems + "]") as $frontendEnum
+
+          | $featuresBackend as $fb
+          | ($fb | map("\"" + . + "\"") | join(", ")) as $beEnumItems
+          | ("[" + $beEnumItems + "]") as $backendEnum
+
+          # --- pass 1: override/add enum for FRONTEND.features[] ---
+          | (
+              if ($schemaWithRequired
+                    | test("(?s)\"frontend\"[\\s\\S]*\"features\"[\\s\\S]*\"enum\"")) then
+                # enum already present → replace only its array
+                ($schemaWithRequired
+                | gsub(
+                    "(?s)(?<prefix>\"frontend\"[\\s\\S]*\"features\"[\\s\\S]*\"enum\"\\s*:\\s*)\\[[^]]*\\]"
+                    ;
+                    "\(.prefix)\($frontendEnum)"
+                  ))
+              else
+                # no enum yet → inject after \"type\": \"string\" in frontend.features.items
+                ($schemaWithRequired
+                | gsub(
+                    "(?s)(?<prefix>\"frontend\"[\\s\\S]*?\"features\"[\\s\\S]*?\"items\"[\\s\\S]*?\"type\": \"string\")"
+                    ;
+                    "\(.prefix),\n                \"enum\": \($frontendEnum)"
+                  ))
+              end
+            ) as $schemaAfterFrontend
+
+          # --- pass 2: override/add enum for BACKEND.features[] ---
+          | (
+              if ($schemaAfterFrontend
+                    | test("(?s)\"backend\"[\\s\\S]*\"features\"[\\s\\S]*\"enum\"")) then
+                # enum already present → replace only its array
+                ($schemaAfterFrontend
+                | gsub(
+                    "(?s)(?<prefix>\"backend\"[\\s\\S]*\"features\"[\\s\\S]*\"enum\"\\s*:\\s*)\\[[^]]*\\]"
+                    ;
+                    "\(.prefix)\($backendEnum)"
+                  ))
+              else
+                # no enum yet → inject after \"type\": \"string\" in backend.features.items
+                ($schemaAfterFrontend
+                | gsub(
+                    "(?s)(?<prefix>\"backend\"[\\s\\S]*?\"features\"[\\s\\S]*?\"items\"[\\s\\S]*?\"type\": \"string\")"
+                    ;
+                    "\(.prefix),\n                \"enum\": \($backendEnum)"
+                  ))
+              end
+            )
         }
   resourcesRefsTemplate:
     iterator: ${ .allowedNamespacesWithResource[] }
@@ -357,26 +413,37 @@ restActions:
               }
             }
           }
-      - name: features
+      - name: featuresFrontend
         verb: GET
         headers:
         - 'Accept: application/vnd.github+json'
         - 'X-GitHub-Api-Version: 2022-11-28'
-        path: "/search/repositories?q=org:krateoplatformops-test+topic:feature"
+        path: "/search/repositories?q=org:krateoplatformops-test+topic:feature+topic:frontend"
         endpointRef:
           name: github-api
-          namespace: cloudnative-stack-system
+          namespace: '{{ default "krateo-system" (default dict .Values.global).krateoNamespace }}'
         filter: |
-          .features.items | map({
-              name: (.name | sub("-feature$"; ""))
-          })
+          .featuresFrontend.items | map((.name | sub("-feature$"; "")))
+
+      - name: featuresBackend
+        verb: GET
+        headers:
+        - 'Accept: application/vnd.github+json'
+        - 'X-GitHub-Api-Version: 2022-11-28'
+        path: "/search/repositories?q=org:krateoplatformops-test+topic:feature+topic:backend"
+        endpointRef:
+          name: github-api
+          namespace: '{{ default "krateo-system" (default dict .Values.global).krateoNamespace }}'
+        filter: |
+          .featuresBackend.items | map((.name | sub("-feature$"; "")))
 
     filter: >
       {
         getOrderedSchema: .getCompositionDefinitionSchemaNs.status.getOrderedSchema,
         getNotOrderedSchema: .getCompositionDefinitionSchemaNs.status.getNotOrderedSchema,
         getCompositionDefinitionResource: .getCompositionDefinitionSchemaNs.status.getCompositionDefinitionResource,
-        features: .features,
+        featuresFrontend: .featuresFrontend,
+        featuresBackend: .featuresBackend,        
         allowedNamespaces: [
           [.allowedNamespaces[] | .status.allowed] as $allowed
           | [.getCompositionDefinitionSchemaNs.status.possibleNamespacesForComposition[] | .namespace]
