@@ -2,17 +2,17 @@
 apiVersion: widgets.templates.krateo.io/v1beta1
 kind: Route
 metadata:
-  name: {{ .Release.Name }}-form-page-route
+  name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}-form-page-route
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
-    path: {{ .Release.Name }}-blueprint
+    path:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}-blueprint
     resourceRefId: form-page
   resourcesRefs:
     items:
       - id: form-page
         apiVersion: widgets.templates.krateo.io/v1beta1
-        name: "{{ .Release.Name }}-form-page"
+        name: " {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}-form-page"
         namespace: {{ .Release.Namespace }}
         resource: pages
         verb: GET

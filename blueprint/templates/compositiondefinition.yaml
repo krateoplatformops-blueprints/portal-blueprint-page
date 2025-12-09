@@ -1,13 +1,13 @@
 apiVersion: core.krateo.io/v1alpha1
 kind: CompositionDefinition
 metadata:
-  name: {{ .Release.Name }}
+  name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}
   namespace: {{ .Release.Namespace }}
 spec:
   chart:
     {{- $url := .Values.blueprint.url }}
     {{- if not (hasPrefix "oci://" $url) }}
-    repo: {{ .Release.Name }}
+    repo: {{ .Values.blueprint.repo }}
     {{- end }}
     url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}

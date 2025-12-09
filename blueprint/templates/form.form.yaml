@@ -1,12 +1,12 @@
 kind: Form
 apiVersion: widgets.templates.krateo.io/v1beta1
 metadata:
-  name: {{ .Release.Name }}-form
+  name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}-form
   namespace: {{ .Release.Namespace }}
   labels:
-    krateo.io/blueprint-form-name: {{ .Release.Name }}
+    krateo.io/blueprint-form-name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}
     krateo.io/blueprint-form-namespace: {{ .Release.Namespace }}
-    krateo.io/blueprint-form-path: {{ .Release.Name }}-blueprint
+    krateo.io/blueprint-form-path:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}-blueprint
 spec:
   widgetData:
     schema:
@@ -43,16 +43,11 @@ spec:
   resourcesRefsTemplate:
     - iterator: {{ .Values.form.resourcesRefsTemplate.iterator }}
       template:
-        id: {{ .Values.form.resourcesRefsTemplate.template.id | quote }}
-        apiVersion: {{ printf "%s/%s%s" .Values.form.resourcesRefsTemplate.template.apiGroup .Values.form.resourcesRefsTemplate.template.apiVersionPrefix (replace "." "-" .Values.blueprint.version) | quote }}
-        namespace: ${ .namespace }
+        id: {{ .Values.form.resourcesRefsTemplate.template.id }}
+        apiVersion: {{ .Values.form.resourcesRefsTemplate.template.apiVersion }} 
+        namespace: {{ .Values.form.resourcesRefsTemplate.template.namespace }}
         resource: {{ .Values.form.resourcesRefsTemplate.template.resource }}
-        verb: {{ .Values.form.resourcesRefsTemplate.template.verb | quote }}
+        verb: {{ .Values.form.resourcesRefsTemplate.template.verb }}
   apiRef:
-    name:
-      {{- if .Values.form.apiRef.name }}
-      {{ .Values.form.apiRef.name | quote }}
-      {{- else }}
-      {{ printf "%s-%s" .Release.Name .Values.form.apiRef.nameSuffix | quote }}
-      {{- end }}
-    namespace: {{ default .Release.Namespace .Values.form.apiRef.namespace | quote }}
+    name: {{ tpl .Values.form.apiRef.name . }}
+    namespace: {{ default .Release.Namespace (tpl .Values.form.apiRef.namespace .) | quote }}

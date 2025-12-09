@@ -2,7 +2,7 @@
 kind: Column
 apiVersion: widgets.templates.krateo.io/v1beta1
 metadata:
-  name: {{ .Release.Name }}-form-page-panel-row-column2
+  name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}-form-page-panel-row-column2
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
@@ -14,7 +14,7 @@ spec:
     items:
       - id: form-page-panel-row-column2-markdown
         apiVersion: widgets.templates.krateo.io/v1beta1
-        name: {{ .Release.Name }}-form-page-panel-markdown
+        name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}-form-page-panel-markdown
         namespace: {{ .Release.Namespace }}
         resource: markdowns
         verb: GET
