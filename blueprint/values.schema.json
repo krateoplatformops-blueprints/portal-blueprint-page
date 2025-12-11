@@ -617,7 +617,8 @@
   },
   "required": [
     "blueprint",
-    "form"
+    "form",
+    "panel"
   ],
   "type": "object"
 }
