@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   chart:
-    repo: {{ .Release.Name }}
+    repo: {{ regexReplaceAll "-[^-]+$" .Release.Name "" }}
     url: {{ .Values.blueprint.url }}
     version: {{ .Values.blueprint.version }}
     {{- with .Values.blueprint.credentials }}
