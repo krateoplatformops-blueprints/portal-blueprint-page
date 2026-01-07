@@ -16,7 +16,7 @@ spec:
           onEventNavigateTo:
             eventReason: "CompositionCreated"
             {{- if eq .Values.blueprint.hasPage true }}
-            url: '${ "/compositions/" + .response.metadata.namespace + "/" + .response.metadata.name }'            
+            url: '${ "/compositions/" + .response.metadata.namespace + "/" + (.response.kind | ascii_downcase) + "/" + .response.metadata.name }'            
             {{- else }}
             url: "/blueprints"
             {{- end }}
