@@ -9,6 +9,11 @@
 # @schema
 blueprint:
   # @schema
+  # description: Blueprints repo
+  # type: string
+  # @schema
+  repo: cloudnative-stack
+  # @schema
   # description: Blueprints url
   # type: string
   # @schema

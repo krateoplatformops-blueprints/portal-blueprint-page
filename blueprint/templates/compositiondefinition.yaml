@@ -5,8 +5,11 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   chart:
-    repo: {{ regexReplaceAll "-[^-]+$" .Release.Name "" }}
-    url: {{ .Values.blueprint.url }}
+    {{- $url := .Values.blueprint.url }}
+    {{- if not (hasPrefix "oci://" $url) }}
+    repo: {{ .Values.blueprint.repo }}
+    {{- end }}
+    url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}
     {{- with .Values.blueprint.credentials }}
     credentials:
