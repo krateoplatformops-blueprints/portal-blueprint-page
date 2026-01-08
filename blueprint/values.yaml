@@ -69,7 +69,7 @@ panel:
     # required: true
     # @schema
     name: fa-cubes
-    
+
 # @schema
 # description: global properties section - if the Helm chart is installed via Composition Dynamic Controller, these are injected by default
 # type: object
@@ -81,9 +81,3 @@ global:
   # examples: [cloudnative-stack]
   # @schema    
   compositionName: cloudnative-stack
-  # @schema
-  # description: Composition Custom Resource kind
-  # type: string
-  # examples: [CloudnativeStack]
-  # @schema    
-  compositionKind: CloudnativeStack
