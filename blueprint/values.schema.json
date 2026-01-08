@@ -12,6 +12,12 @@
           "title": "hasPage",
           "type": "boolean"
         },
+        "repo": {
+          "default": "cloudnative-stack",
+          "description": "Blueprints repo",
+          "title": "repo",
+          "type": "string"
+        },
         "version": {
           "description": "Blueprints version",
           "title": "version",
