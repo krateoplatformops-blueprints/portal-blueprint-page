@@ -28,13 +28,12 @@ Modify the *portal-blueprint-page-values.yaml* file as the following example:
 
 ```yaml
 blueprint:
+  repo: github-scaffolding
   url: https://marketplace.krateo.io
   version: 1.0.0 # this is the Blueprint version
   hasPage: false
 form:
   alphabeticalOrder: false
-  hasPage: true
-  instructions: "This form allows to do something"
 panel:
   title: GitHub Scaffolding
   icon:
@@ -79,7 +78,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: composition.krateo.io/v1-0-6
 kind: PortalBlueprintPage
 metadata:
-  name: github-scaffolding	
+  name: github-scaffolding
   namespace: demo-system
 spec:
   blueprint:
@@ -89,8 +88,6 @@ spec:
     hasPage: false
   form:
     alphabeticalOrder: false
-    hasPage: true
-    instructions: "This form allows to do something"
   panel:
     title: GitHub Scaffolding
     icon:
