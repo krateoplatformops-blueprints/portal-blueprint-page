@@ -33,6 +33,8 @@ blueprint:
   hasPage: false
 form:
   alphabeticalOrder: false
+  hasPage: true
+  instructions: "This form allows to do something"
 panel:
   title: GitHub Scaffolding
   icon:
@@ -87,6 +89,8 @@ spec:
     hasPage: false
   form:
     alphabeticalOrder: false
+    hasPage: true
+    instructions: "This form allows to do something"
   panel:
     title: GitHub Scaffolding
     icon:
