@@ -1,7 +1,7 @@
 apiVersion: core.krateo.io/v1alpha1
 kind: CompositionDefinition
 metadata:
-  name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}
+  name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
   chart:
@@ -11,13 +11,12 @@ spec:
     {{- end }}
     url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}
-    {{- $creds := .Values.blueprint.credentials | default dict }}
-    {{- if gt (len $creds) 0 }}
+    {{- with .Values.blueprint.credentials }}
     credentials:
-      {{- with $creds.username }}
+      {{- with .username }}
       username: {{ . | quote }}
       {{- end }}
-      {{- with $creds.passwordRef }}
+      {{- with .passwordRef }}
       passwordRef:
         {{- with .key }}
         key: {{ . | quote }}
