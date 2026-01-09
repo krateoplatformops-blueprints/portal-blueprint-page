@@ -81,9 +81,3 @@ global:
   # examples: [cloudnative-stack]
   # @schema    
   compositionName: cloudnative-stack
-  # @schema
-  # description: Composition Custom Resource kind
-  # type: string
-  # examples: [CloudnativeStack]
-  # @schema    
-  compositionKind: CloudnativeStack
