@@ -6,7 +6,7 @@ metadata:
 spec:
   widgetData:
     {{- if eq .Values.form.alphabeticalOrder true }}
-    markdown: Click here to deploy a **{{ default .Values.blueprint.repo .Release.Name }}** composition (_Custom Resource Definition_ order form)
+    markdown: Click here to deploy a **{{ .Values.global.compositionName }}** composition (_Custom Resource Definition_ order form)
     {{- else }}
-    markdown: Click here to deploy a **{{ default .Values.blueprint.repo .Release.Name }}** composition (_values.schema.json_ order form)
+    markdown: Click here to deploy a **{{ .Values.global.compositionName }}** composition (_values.schema.json_ order form)
     {{- end }}
