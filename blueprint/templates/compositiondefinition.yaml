@@ -7,7 +7,7 @@ spec:
   chart:
     {{- $url := .Values.blueprint.url }}
     {{- if not (hasPrefix "oci://" $url) }}
-    repo: {{ default .Values.global.compositionName .Values.blueprint.repo }}
+    repo: {{ default .Values.global.compositionName .Values.blueprint.repo }} # If empty, the global.compositionName value will be used for retrocompatibility to portal-blueprint-version 1.0.5
     {{- end }}
     url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}
