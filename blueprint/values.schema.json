@@ -58,6 +58,15 @@
       "additionalProperties": true,
       "description": "global properties section - if the Helm chart is installed via Composition Dynamic Controller, these are injected by default",
       "properties": {
+        "compositionKind": {
+          "default": "CloudnativeStack",
+          "description": "Composition Custom Resource kind",
+          "examples": [
+            "CloudnativeStack"
+          ],
+          "title": "compositionKind",
+          "type": "string"
+        },
         "compositionName": {
           "default": "cloudnative-stack",
           "description": "Composition Custom Resource metadata name",
