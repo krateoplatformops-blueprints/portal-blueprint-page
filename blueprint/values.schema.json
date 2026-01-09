@@ -13,7 +13,7 @@
           "type": "boolean"
         },
         "repo": {
-          "description": "Blueprints repo",
+          "description": "Blueprints repo name. If empty, the global.compositionName value will be used for retrocompatibility to portal-blueprint-version 1.0.5",
           "title": "repo",
           "type": "string"
         },

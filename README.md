@@ -10,11 +10,13 @@ The Blueprint enables users to **add a Blueprint to the *Blueprint* page** of th
 
 - Registers a new Blueprint in the Krateo *Blueprint* page
 - Makes the Blueprint selectable and usable via the Composable Portal UI
-- Supports namespace scoping and user permissions via RBAC (if configured)
+- Supports namespace scoping and  user permissions via RBAC (if configured)
 
 ## Usage
 
 ### Install the Helm Chart
+
+> Note: For the time being this installation method may not work, refer to the alternative installation method '[Install using Krateo Composable Operation](#install-using-krateo-composable-operation)' below.
 
 Download Helm Chart values:
 
@@ -43,7 +45,7 @@ panel:
 Install the Blueprint using, as a release name, the *Blueprint* name (the Helm Chart name of the blueprint):
 
 ```sh
-helm install github-scaffolding template \
+helm install github-scaffolding portal-blueprint-page \
   --repo https://marketplace.krateo.io \
   --namespace demo-system \
   --create-namespace \
