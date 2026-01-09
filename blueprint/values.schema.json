@@ -7,61 +7,28 @@
       "description": "Blueprint properties",
       "properties": {
         "hasPage": {
-          "description": "Blueprints dedicated page (Composition)",
           "default": true,
+          "description": "Blueprints dedicated page (Composition)",
           "title": "hasPage",
           "type": "boolean"
         },
         "repo": {
-          "default": "cloudnative-stack",
+          "default": "",
           "description": "Blueprints repo",
           "title": "repo",
           "type": "string"
         },
+        "url": {
+          "default": "https://marketplace.krateo.io",
+          "description": "Blueprints url",
+          "title": "url",
+          "type": "string"
+        },
         "version": {
+          "default": "0.0.1",
           "description": "Blueprints version",
           "title": "version",
           "type": "string"
-        },
-        "url": {
-          "description": "Blueprints url",
-          "title": "version",
-          "type": "string"
-        },
-        "credentials": {
-          "description": "Authentication configuration for private registries",
-          "title": "credentials",
-          "type": "object",
-          "properties": {
-            "username": {
-              "description": "Registry username",
-              "title": "username",
-              "type": "string"
-            },
-            "passwordRef": {
-              "description": "Reference to a secret containing the registry password or token",
-              "title": "passwordRef",
-              "type": "object",
-              "properties": {
-                "key": {
-                  "description": "Secret key",
-                  "title": "key",
-                  "type": "string"
-                },
-                "name": {
-                  "description": "Secret name",
-                  "title": "name",
-                  "type": "string"
-                },
-                "namespace": {
-                  "description": "Secret namespace",
-                  "title": "namespace",
-                  "type": "string"
-                }
-              },
-              "required": ["key", "name", "namespace"]
-            }
-          }
         }
       },
       "required": [
@@ -88,6 +55,23 @@
       "title": "form",
       "type": "object"
     },
+    "global": {
+      "additionalProperties": true,
+      "description": "global properties section - if the Helm chart is installed via Composition Dynamic Controller, these are injected by default",
+      "properties": {
+        "compositionName": {
+          "default": "cloudnative-stack",
+          "description": "Composition Custom Resource metadata name",
+          "examples": [
+            "cloudnative-stack"
+          ],
+          "title": "compositionName",
+          "type": "string"
+        }
+      },
+      "title": "global",
+      "type": "object"
+    },
     "panel": {
       "additionalProperties": false,
       "description": "Blueprint panel properties",
@@ -110,6 +94,7 @@
           "type": "object"
         },
         "title": {
+          "default": "GitHub Scaffolding",
           "description": "Blueprint panel title",
           "title": "title",
           "type": "string"
@@ -120,25 +105,6 @@
       ],
       "title": "panel",
       "type": "object"
-    },
-    "global": {
-      "additionalProperties": true,
-      "description": "global properties section - if the Helm chart is installed via Composition Dynamic Controller, these are injected by default",
-      "properties": {
-        "compositionName": {
-          "description": "Composition Custom Resource metadata name",
-          "examples": [
-            "cloudnative-stack"
-          ],
-          "title": "compositionName",
-          "type": "string"
-        }
-      },
-      "title": "global",
-      "type": "object",
-      "required": [
-        "compositionName"
-      ]
     }
   },
   "required": [

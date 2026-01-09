@@ -7,7 +7,7 @@ spec:
   chart:
     {{- $url := .Values.blueprint.url }}
     {{- if not (hasPrefix "oci://" $url) }}
-    repo: {{ .Values.blueprint.repo }}
+    repo: {{ default .Release.Name .Values.blueprint.repo }}
     {{- end }}
     url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}
