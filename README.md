@@ -10,31 +10,32 @@ The Blueprint enables users to **add a Blueprint to the *Blueprint* page** of th
 
 - Registers a new Blueprint in the Krateo *Blueprint* page
 - Makes the Blueprint selectable and usable via the Composable Portal UI
-- Supports namespace scoping and user permissions via RBAC (if configured)
+- Supports namespace scoping and  user permissions via RBAC (if configured)
 
 ## Usage
 
 ### Install the Helm Chart
+
+> Note: For the time being this installation method may not work, refer to the alternative installation method '[Install using Krateo Composable Operation](#install-using-krateo-composable-operation)' below.
 
 Download Helm Chart values:
 
 ```sh
 helm repo add marketplace https://marketplace.krateo.io
 helm repo update marketplace
-helm inspect values marketplace/portal-blueprint-page --version 1.1.0 > ~/portal-blueprint-page-values.yaml
+helm inspect values marketplace/portal-blueprint-page --version 1.0.7 > ~/portal-blueprint-page-values.yaml
 ```
 
 Modify the *portal-blueprint-page-values.yaml* file as the following example:
 
 ```yaml
 blueprint:
+  repo: github-scaffolding
   url: https://marketplace.krateo.io
   version: 1.0.0 # this is the Blueprint version
   hasPage: false
 form:
   alphabeticalOrder: false
-  hasPage: true
-  instructions: "This form allows to do something"
 panel:
   title: GitHub Scaffolding
   icon:
@@ -44,12 +45,12 @@ panel:
 Install the Blueprint using, as a release name, the *Blueprint* name (the Helm Chart name of the blueprint):
 
 ```sh
-helm install github-scaffolding template \
+helm install github-scaffolding portal-blueprint-page \
   --repo https://marketplace.krateo.io \
   --namespace demo-system \
   --create-namespace \
-  -f ~/portal-blueprint-page-values.yaml
-  --version 1.1.0 \
+  -f ~/portal-blueprint-page-values.yaml \
+  --version 1.0.7 \
   --wait
 ```
 
@@ -68,7 +69,7 @@ spec:
   chart:
     repo: portal-blueprint-page
     url: https://marketplace.krateo.io
-    version: 1.1.0
+    version: 1.0.7
 EOF
 ```
 
@@ -76,20 +77,19 @@ Install the Blueprint using, as metadata.name, the *Blueprint* name (the Helm Ch
 
 ```sh
 cat <<EOF | kubectl apply -f -
-apiVersion: composition.krateo.io/v1-1-0
+apiVersion: composition.krateo.io/v1-0-7
 kind: PortalBlueprintPage
 metadata:
-  name: github-scaffolding	
+  name: github-scaffolding
   namespace: demo-system
 spec:
   blueprint:
+    repo: github-scaffolding
     url: https://marketplace.krateo.io
     version: 1.0.0 # this is the Blueprint version
     hasPage: false
   form:
     alphabeticalOrder: false
-    hasPage: true
-    instructions: "This form allows to do something"
   panel:
     title: GitHub Scaffolding
     icon:

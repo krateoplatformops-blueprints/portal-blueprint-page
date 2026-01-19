@@ -1,8 +1,12 @@
 kind: Markdown
 apiVersion: widgets.templates.krateo.io/v1beta1
 metadata:
-  name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}-panel-markdown
+  name: {{ .Release.Name }}-panel-markdown
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
-    markdown: {{ tpl .Values.panel.markdown . | quote }}
+    {{- if eq .Values.form.alphabeticalOrder true }}
+    markdown: Click here to deploy a **{{ .Values.global.compositionName }}** composition (_Custom Resource Definition_ order form)
+    {{- else }}
+    markdown: Click here to deploy a **{{ .Values.global.compositionName }}** composition (_values.schema.json_ order form)
+    {{- end }}

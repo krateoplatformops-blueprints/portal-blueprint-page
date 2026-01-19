@@ -1,23 +1,22 @@
 apiVersion: core.krateo.io/v1alpha1
 kind: CompositionDefinition
 metadata:
-  name:  {{ .Values.global.compositionKind | lower }}-{{ .Values.global.compositionName }}
+  name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
   chart:
     {{- $url := .Values.blueprint.url }}
     {{- if not (hasPrefix "oci://" $url) }}
-    repo: {{ .Values.blueprint.repo }}
+    repo: {{ default .Values.global.compositionName .Values.blueprint.repo }} # If empty, the global.compositionName value will be used for retrocompatibility to portal-blueprint-version 1.0.5
     {{- end }}
     url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}
-    {{- $creds := .Values.blueprint.credentials | default dict }}
-    {{- if gt (len $creds) 0 }}
+    {{- with .Values.blueprint.credentials }}
     credentials:
-      {{- with $creds.username }}
+      {{- with .username }}
       username: {{ . | quote }}
       {{- end }}
-      {{- with $creds.passwordRef }}
+      {{- with .passwordRef }}
       passwordRef:
         {{- with .key }}
         key: {{ . | quote }}
