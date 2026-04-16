@@ -12,13 +12,20 @@ The Blueprint enables users to **add a Blueprint to the *Blueprint* page** of th
 - Makes the Blueprint selectable and usable via the Composable Portal UI
 - Supports namespace scoping and  user permissions via RBAC (if configured)
 
-## Usage
+## Installation
 
-### Install the Helm Chart
+There are two ways to install this Blueprint:
 
-> Note: For the time being this installation method may not work, refer to the alternative installation method '[Install using Krateo Composable Operation](#install-using-krateo-composable-operation)' below.
+- [1. Helm Chart](#method-1-helm-chart) 
+- [2. Krateo Composable Operation](#method-2-krateo-composable-operation)
 
-Download Helm Chart values:
+---
+
+### Method 1: Helm Chart
+
+> Note: For the time being this installation method may not work, refer to the alternative installation method '[2. Krateo Composable Operation](#method-2-krateo-composable-operation)' below.
+
+**Step 1: Download the default Helm chart values**
 
 ```sh
 helm repo add marketplace https://marketplace.krateo.io
@@ -26,7 +33,9 @@ helm repo update marketplace
 helm inspect values marketplace/portal-blueprint-page --version 1.0.6 > ~/portal-blueprint-page-values.yaml
 ```
 
-Modify the *portal-blueprint-page-values.yaml* file as the following example:
+**Step 2: Edit the values file**
+
+Modify the `~/portal-blueprint-page-values.yaml` as shown below:
 
 ```yaml
 blueprint:
@@ -42,7 +51,9 @@ panel:
     name: fa-cubes
 ```
 
-Install the Blueprint using, as a release name, the *Blueprint* name (the Helm Chart name of the blueprint):
+**Step 3: Install the blueprint**
+
+When installing the chart, ensure the release name matches the `blueprint.repo` defined above:
 
 ```sh
 helm install github-scaffolding portal-blueprint-page \
@@ -54,9 +65,11 @@ helm install github-scaffolding portal-blueprint-page \
   --wait
 ```
 
-### Install using Krateo Composable Operation
+---
 
-Install the CompositionDefinition for the *Blueprint*:
+### Method 2: Krateo Composable Operation
+
+**Step 1: Install the `CompositionDefinition`**
 
 ```sh
 cat <<EOF | kubectl apply -f -
@@ -73,7 +86,13 @@ spec:
 EOF
 ```
 
-Install the Blueprint using, as metadata.name, the *Blueprint* name (the Helm Chart name of the blueprint):
+As a result of this command:
+- The core-provider generates a new Custom Resource Definition (CRD) based on the `portal-blueprint-page` chart's schema.
+- Resources of kind `PortalBlueprintPage` (with `apiVersion: composition.krateo.io/v1-0-6`) can now be created in the cluster.
+
+Next, create the Composition custom resource.
+
+> Note: `metadata.name` and `spec.blueprint.repo` must be the same.
 
 ```sh
 cat <<EOF | kubectl apply -f -
@@ -96,3 +115,7 @@ spec:
       name: fa-cubes
 EOF
 ```
+
+As a result of this command:
+- A new `PortalBlueprintPage` Composition is created, which deploys the portal widgets and generates a new `CompositionDefinition` for the `github-scaffolding` chart using the values provided in `spec.blueprint`.
+- A blueprint card is created in the Krateo Portal's "Blueprints" section, allowing users to configure and deploy this blueprint directly from the UI.
