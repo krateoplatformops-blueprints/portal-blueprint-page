@@ -6,6 +6,46 @@
       "additionalProperties": false,
       "description": "Blueprint properties",
       "properties": {
+        "credentials": {
+          "additionalProperties": false,
+          "description": "Credentials for private blueprint registry",
+          "properties": {
+            "passwordRef": {
+              "additionalProperties": false,
+              "description": "Reference to a secret containing the password",
+              "properties": {
+                "key": {
+                  "default": "",
+                  "description": "Key in the secret",
+                  "title": "key",
+                  "type": "string"
+                },
+                "name": {
+                  "default": "",
+                  "description": "Name of the secret",
+                  "title": "name",
+                  "type": "string"
+                },
+                "namespace": {
+                  "default": "",
+                  "description": "Namespace of the secret",
+                  "title": "namespace",
+                  "type": "string"
+                }
+              },
+              "title": "passwordRef",
+              "type": "object"
+            },
+            "username": {
+              "default": "",
+              "description": "Username for registry authentication",
+              "title": "username",
+              "type": "string"
+            }
+          },
+          "title": "credentials",
+          "type": "object"
+        },
         "hasPage": {
           "default": true,
           "description": "Blueprints dedicated page (Composition)",
