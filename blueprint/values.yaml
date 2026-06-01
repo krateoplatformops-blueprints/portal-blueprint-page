@@ -31,6 +31,38 @@ blueprint:
   # default: true
   # @schema
   hasPage: false
+  # @schema
+  # description: Credentials for private blueprint registry
+  # type: object
+  # additionalProperties: false
+  # @schema
+  credentials:
+    # @schema
+    # description: Username for registry authentication
+    # type: string
+    # @schema
+    username: ""
+    # @schema
+    # description: Reference to a secret containing the password
+    # type: object
+    # additionalProperties: false
+    # @schema
+    passwordRef:
+      # @schema
+      # description: Key in the secret
+      # type: string
+      # @schema
+      key: ""
+      # @schema
+      # description: Name of the secret
+      # type: string
+      # @schema
+      name: ""
+      # @schema
+      # description: Namespace of the secret
+      # type: string
+      # @schema
+      namespace: ""
 
 # @schema
 # description: Blueprint form properties 
@@ -73,6 +105,7 @@ panel:
 # @schema
 # description: global properties section - if the Helm chart is installed via Composition Dynamic Controller, these are injected by default
 # type: object
+# additionalProperties: true
 # @schema
 global:
   # @schema
