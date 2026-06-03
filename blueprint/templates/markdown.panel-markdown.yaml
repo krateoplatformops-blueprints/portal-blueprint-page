@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
-    {{- $compositionName := .Values.blueprint.repo | default .Values.global.compositionName }}
+    {{- $compositionName := .Values.blueprint.repo | default .Values.global.compositionName | default "" }}
     {{- if eq .Values.form.alphabeticalOrder true }}
     markdown: Click here to deploy a **{{ $compositionName }}** composition (_Custom Resource Definition_ order form)
     {{- else }}
