@@ -23,8 +23,6 @@ There are two ways to install this Blueprint:
 
 ### Method 1: Helm Chart
 
-> Note: For the time being this installation method may not work, refer to the alternative installation method '[2. Krateo Composable Operation](#method-2-krateo-composable-operation)' below.
-
 **Step 1: Download the default Helm chart values**
 
 ```sh

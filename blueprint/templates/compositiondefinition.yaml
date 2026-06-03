@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     {{- $url := .Values.blueprint.url }}
-    repo: {{ .Values.blueprint.repo | default .Values.global.compositionName }} # If empty, the global.compositionName value will be used for backward compatibility to portal-blueprint-page version 1.0.5
+    repo: {{ .Values.blueprint.repo | default ((.Values.global | default dict).compositionName) }} # If empty, the global.compositionName value will be used for backward compatibility to portal-blueprint-page version 1.0.5
     url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}
     {{- with .Values.blueprint.credentials }}

@@ -11,8 +11,10 @@ spec:
     namespace: {{ .Release.Namespace }}
   widgetData:
     clickActionId: blueprint-click-action
+    {{- if hasKey (.Values.global | default dict) "compositionId" }} # CDC is involved in the installation
     footer:
       - resourceRefId: blueprint-panel-button
+    {{- end }}
     tags:
       - {{ .Release.Namespace }}
       - {{ .Values.blueprint.version }}
@@ -43,12 +45,14 @@ spec:
         namespace: {{ .Release.Namespace }}
         resource: markdowns
         verb: GET
+      {{- if hasKey (.Values.global | default dict) "compositionId" }} # CDC is involved in the installation
       - id: blueprint-panel-button
         apiVersion: widgets.templates.krateo.io/v1beta1
         name: {{ .Release.Name }}-panel-button-cleanup
         namespace: {{ .Release.Namespace }}
         resource: buttons
         verb: DELETE
+      {{- end }}
       - id: blueprint-form
         apiVersion: widgets.templates.krateo.io/v1beta1
         {{- if eq .Values.form.alphabeticalOrder true }}

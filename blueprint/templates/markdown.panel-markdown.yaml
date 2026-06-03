@@ -5,8 +5,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   widgetData:
-    {{- if eq .Values.form.alphabeticalOrder true }}
-    markdown: Click here to deploy a **{{ .Values.global.compositionName }}** composition (_Custom Resource Definition_ order form)
-    {{- else }}
-    markdown: Click here to deploy a **{{ .Values.global.compositionName }}** composition (_values.schema.json_ order form)
-    {{- end }}
+    {{- $compositionName := .Values.blueprint.repo | default ((.Values.global | default dict).compositionName) | default "" }}
+    {{- $formType := .Values.form.alphabeticalOrder | ternary "_Custom Resource Definition_ order form" "_values.schema.json_ order form" }}
+    markdown: Click here to deploy a **{{ $compositionName }}** composition ({{ $formType }})

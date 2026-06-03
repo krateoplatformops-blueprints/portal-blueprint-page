@@ -94,23 +94,6 @@
       "title": "form",
       "type": "object"
     },
-    "global": {
-      "additionalProperties": true,
-      "description": "global properties section - if the Helm chart is installed via Composition Dynamic Controller, these are injected by default",
-      "properties": {
-        "compositionName": {
-          "default": "cloudnative-stack",
-          "description": "Composition Custom Resource metadata name",
-          "examples": [
-            "cloudnative-stack"
-          ],
-          "title": "compositionName",
-          "type": "string"
-        }
-      },
-      "title": "global",
-      "type": "object"
-    },
     "panel": {
       "additionalProperties": false,
       "description": "Blueprint panel properties",
