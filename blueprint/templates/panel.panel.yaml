@@ -14,6 +14,8 @@ spec:
     {{- if hasKey (.Values.global | default dict) "compositionId" }} # CDC is involved in the installation
     footer:
       - resourceRefId: blueprint-panel-button
+    {{- else }}
+    footer: []
     {{- end }}
     tags:
       - {{ .Release.Namespace }}
