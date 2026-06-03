@@ -24,7 +24,7 @@ spec:
       - id: cleanup
         apiVersion: composition.krateo.io/v{{ .Chart.Version | replace "." "-" }}
         resource: portalblueprintpages
-        name:  {{ .Values.global.compositionName }}
+        name:  {{ (.Values.global | default dict).compositionName }}
         namespace: {{ .Release.Namespace }}
         verb: DELETE
 {{- end }}
