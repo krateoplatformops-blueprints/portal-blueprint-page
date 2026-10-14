@@ -77,6 +77,21 @@ form:
   # default: false
   # @schema
   alphabeticalOrder: false
+  # @schema
+  # description: Array fields of the blueprint's values.schema.json whose items are objects, edited as a list of objects in the form
+  # type: array
+  # items:
+  #   type: object
+  #   required: [path, displayField]
+  #   properties:
+  #     path:
+  #       description: Dot-separated path of the array field in the blueprint's values.schema.json
+  #       type: string
+  #     displayField:
+  #       description: Item field shown as the label of each row
+  #       type: string
+  # @schema
+  objectFields: []
 
 # @schema
 # description: Blueprint panel properties 

@@ -117,3 +117,32 @@ EOF
 As a result of this command:
 - A new `PortalBlueprintPage` Composition is created, which deploys the portal widgets and generates a new `CompositionDefinition` for the `github-scaffolding` chart using the values provided in `spec.blueprint`.
 - A blueprint card is created in the Krateo Portal's "Blueprints" section, allowing users to configure and deploy this blueprint directly from the UI.
+## Lists of objects in the form
+
+By default the form edits an array field as a list of strings. For an array whose items are objects, list it in `form.objectFields`: the form then shows one row per item, and each item is added or edited in its own sub-form.
+
+For a blueprint with this field in its `values.schema.json`:
+
+```json
+"additionalParams": {
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "key":   { "type": "string" },
+      "value": { "type": "string" }
+    },
+    "required": ["key", "value"]
+  }
+}
+```
+
+set:
+
+```yaml
+form:
+  alphabeticalOrder: false
+  objectFields:
+    - path: additionalParams  # dot-separated path of the array field
+      displayField: key       # item field shown as the label of each row
+```
