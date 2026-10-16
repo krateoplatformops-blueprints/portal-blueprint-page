@@ -55,13 +55,13 @@ spec:
               }
             }
         }
+  # One ref in the first allowed namespace: on submit the frontend rewrites its namespace to the selected one.
   resourcesRefsTemplate:
-    - iterator: ${ .allowedNamespacesWithResource[] }
-      template:
+    - template:
         id: composition-to-post
         apiVersion: composition.krateo.io/v{{ .Values.blueprint.version | replace "." "-" }}
-        namespace: ${ .namespace }
-        resource: ${ .resource }
+        namespace: ${ .allowedNamespaces[0][0] }
+        resource: ${ .getCompositionDefinitionResource }
         verb: POST
   apiRef:
     name: {{ .Release.Name }}-restaction-schema-override-allows-ns
