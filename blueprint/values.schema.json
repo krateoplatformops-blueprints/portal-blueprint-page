@@ -86,6 +86,31 @@
           "description": "Blueprint form keys order",
           "title": "alphabeticalOrder",
           "type": "boolean"
+        },
+        "objectFields": {
+          "description": "Array fields of the blueprint's values.schema.json whose items are objects, edited as a list of objects in the form",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "displayField": {
+                "description": "Item field shown as the label of each row",
+                "title": "displayField",
+                "type": "string"
+              },
+              "path": {
+                "description": "Dot-separated path of the array field in the blueprint's values.schema.json",
+                "title": "path",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "displayField"
+            ],
+            "type": "object"
+          },
+          "title": "objectFields",
+          "type": "array"
         }
       },
       "required": [

@@ -10,6 +10,10 @@ spec:
   widgetData:
     schema: {}
     submitActionId: submit-action-from-string-schema
+    {{- with .Values.form.objectFields }}
+    objectFields:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
     actions:
       rest:
         - id: submit-action-from-string-schema
