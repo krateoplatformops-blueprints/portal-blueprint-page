@@ -10,10 +10,9 @@ spec:
     url: {{ $url | quote }}
     version: {{ .Values.blueprint.version }}
     {{- with .Values.blueprint.credentials }}
+    {{- if .username }}
     credentials:
-      {{- with .username }}
-      username: {{ . | quote }}
-      {{- end }}
+      username: {{ .username | quote }}
       {{- with .passwordRef }}
       passwordRef:
         {{- with .key }}
@@ -26,4 +25,5 @@ spec:
         namespace: {{ . | quote }}
         {{- end }}
       {{- end }}
+    {{- end }}
     {{- end }}
